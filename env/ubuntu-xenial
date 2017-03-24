@@ -1,0 +1,7 @@
+# xenial-server-cloudimg-amd64
+export PRODUCT_INFO='A base Ubuntu 16.04 host.'
+export PRODUCT_VERSION='16.04'
+export PRODUCT_FULL_VERSION='16.04'
+export VENDOR_NAME='Ubuntu'
+export OPERATING_SYSTEM_INFO='Linux'
+export OPERATING_SYSTEM_DESCRIPTION='Ubuntu Linux Guest Machine'
