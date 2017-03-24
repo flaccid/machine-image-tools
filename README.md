@@ -17,7 +17,7 @@ Plus, `curl` and/or `wget` to fetch things like images.
 Pull down the Ubuntu 16.04 VMDK and create an OVA:
 
     $ wget http://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-disk1.vmdk
-    $ source env/ubuntu; ./create_images_from_vmdk.sh xenial-server-cloudimg-amd64
+    $ source env/ubuntu-xenial; ./create_images_from_vmdk.sh xenial-server-cloudimg-amd64
 
 License and Authors
 -------------------
