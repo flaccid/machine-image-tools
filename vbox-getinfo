@@ -1,0 +1,30 @@
+#!/bin/sh
+
+input="/tmp/input.img"
+output="/tmp/output.img"
+outd="out.d"
+mkdir -p "$outd"
+uuid="b15256c1-70fb-45df-8728-77cf75bffd92"
+
+rm out.info.log
+for format in VDI VMDK VHD; do
+  for variant in Standard Fixed Split2G Stream ESX ""; do
+    rm -f "$input" "$output"
+    vboxmanage closemedium disk --delete "$output" >/dev/null 2>&1
+    [ "$variant" = "" ] && ovariant="none" || ovariant="$variant"
+    echo "=== $format $variant ==="
+    truncate --size 50M "$input"
+    vboxmanage convertfromraw --format=$format ${variant:+--variant=${variant}} --uuid=$uuid $input $output > "$outd/$format.$ovariant.out" 2>&1
+    ret="$?"
+    if [ "$ret" -ne 0 ]; then
+       echo "Failed $outd/$format.$ovariant"
+       continue
+    fi
+    vboxmanage showhdinfo "$output" | tee "$outd/$format.$ovariant.info"
+    echo "md5sum: $(md5sum "$output")"
+    info=$(awk -F: '$1 == "Format variant" { print $2 }' "$outd/$format.$ovariant.info")
+    echo "$format-$ovariant:" $info | tee -a out.info.log
+    cp "$output" "$outd/$format.$ovariant.img"
+    vboxmanage closemedium disk --delete "$output" >/dev/null 2>&1
+  done
+done

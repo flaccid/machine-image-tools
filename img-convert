@@ -1,0 +1,234 @@
+#!/bin/bash
+
+# any 'variant' and format options other than these here end up being reported
+# by 'vboxmanage showhdinfo' as 'dynamic-default'
+# VDI-Fixed: fixed default
+# VMDK-Stream: dynamic streamOptimized
+# VHD-Fixed: fixed default
+
+VERBOSITY=0
+TEMP_D=""
+# see 'vboxmanage clonehd' output
+FORMATS=(
+  qcow2
+  qcow2-compressed
+  raw
+  vdi
+  vdi-fixed
+  vhd
+  vhd-fixed
+  vmdk
+  vmdk-esx
+  vmdk-stream
+)
+
+declare -A VBOX_VAR_MAP
+declare -A VBOX_FMT_MAP
+VBOX_FMT_MAP=( [vdi]=VDI [vhd]=VHD [vmdk]="VMDK" )
+VBOX_VAR_MAP=( [fixed]="Fixed" [stream]="Stream" [standard]="Standard" )
+
+
+error() { echo "$@" 1>&2; }
+errorp() { printf "$@" 1>&2; }
+fail() { [ $# -eq 0 ] || error "$@"; exit 1; }
+failp() { [ $# -eq 0 ] || errorp "$@"; exit 1; }
+
+checkreqs() {
+	local missing="" missing_pkgs="" reqs="" req="" pkgs="" pkg=""
+	reqs=( qemu-img vboxmanage )
+	pkgs=( qemu-kvm virtualbox )
+	for((i=0;i<${#reqs[@]};i++)); do
+		req=${reqs[$i]}
+		pkg=${pkgs[$i]}
+		command -v "$req" >/dev/null || {
+			missing="${missing:+${missing} }${req}"
+			missing_pkgs="${missing_pkgs:+${missing_pkgs} }$pkg"
+		}
+	done
+	[ -z "$missing" ] || {
+		error "missing prereqs: $missing";
+		error "apt-get install ${missing_pkgs}";
+		return 1;
+	}
+}
+
+rq() {
+	local verbosity=$1 name=$2
+	shift 2;
+	debug 2 "running:" "$@"
+	if [ ${VERBOSITY} -ge $verbosity ]; then
+		"$@"
+	else
+		local f="${TEMP_D}/${name}.out"
+		"$@" > "$f" 2>&1
+		local ret=$?
+		[ $ret -eq 0 ] && { rm -f "$f"; return 0; }
+		error "FAILED:" "$@"
+		cat "$f" 1>&2;
+		rm -f "${f}"
+		return $ret
+	fi
+}
+
+bad_Usage() { Usage 1>&2; fail "$@"; }
+
+Usage() {
+	cat <<EOF
+Usage: ${0##*/} [ options ] input format output
+
+   Convert a qcow image to another format successfully.
+
+   options:
+      --resize  SIZE   grow the disk to SIZE during conversion
+      --direct         do not use intermediate 'format' file
+
+   format is one of:
+EOF
+	local f
+	for f in "${FORMATS[@]}"; do
+		echo "     $f"
+	done
+}
+
+bad_Usage() { Usage 1>&2; [ $# -eq 0 ] || error "$@"; exit 1; }
+cleanup() {
+	[ -z "${TEMP_D}" -o ! -d "${TEMP_D}" ] || rm -Rf "${TEMP_D}"
+}
+
+debug() {
+	local level=${1}; shift;
+	[ "${level}" -gt "${VERBOSITY}" ] && return
+	error "${@}"
+}
+
+inargs() {
+	local needle="$1" hay=""
+	shift
+	for hay in "$@"; do
+		[ "$needle" = "$hay" ] && return 0
+	done
+	return 1
+}
+
+short_opts="hr:v"
+long_opts="direct,help,resize:,verbose"
+getopt_out=$(getopt --name "${0##*/}" \
+	--options "${short_opts}" --long "${long_opts}" -- "$@") &&
+	eval set -- "${getopt_out}" ||
+	bad_Usage
+
+## <<insert default variables here>>
+input=""
+output=""
+resize=""
+fixed=true
+direct=0
+
+while [ $# -ne 0 ]; do
+	cur=$1; next=$2;
+	case "$cur" in
+		   --direct) direct=1;;
+		-h|--help) Usage ; exit 0;;
+		-v|--verbose) VERBOSITY=$((${VERBOSITY}+1));;
+		-r|--resize) resize=$next;;
+		   --no-fixed) fixed=false;;
+		--) shift; break;;
+	esac
+	shift;
+done
+
+[ $# -eq 3 ] ||
+	bad_Usage "Expect 3 args. (input, format, output). got $#"
+input="$1"
+oformat="$2"
+output="$3"
+
+[ -f "$input" ] || fail "$input: not a file"
+rm -f "$output" || fail "failed to delete output file: $output"
+
+inargs "$oformat" "${FORMATS[@]}" ||
+   fail "$oformat not valid format: ${FORMATS[*]}"
+
+checkreqs || fail
+
+TEMP_D=$(mktemp -d "${TMPDIR:-/tmp}/${0##*/}.XXXXXX") ||
+	fail "failed to make tempdir"
+trap cleanup EXIT
+
+out=$(LANG=C qemu-img info "$input") ||
+	fail "failed to get image info for $input"
+itype=$(echo "$out" | awk '$0 ~ /^file format:/ { print $3 }') &&
+	[ -n "$itype" ] || fail "failed to get input type"
+isize=$(echo "$out" | awk '$0 ~ /^virtual size:/ { print $4 }') &&
+	[ -n "$isize" ] && isize="${isize#(}" || fail "failed to get input type"
+
+debug 1 "$input: $itype/$isize"
+
+img_raw="${TEMP_D}/img.raw"
+
+if [ "$itype" = "raw" ]; then
+	if [ -n "$resize" ]; then
+		debug 1 "copying input to temp for resize to $resize"
+		img_raw="${TEMP_D}/raw.img"
+		cp "$itype" "$img_raw" ||
+			fail "failed copy to temp"
+	else
+		ln -s "$(readlink -f "$input")" "$img_raw" ||
+			fail "failed to link to $input"
+	fi
+else
+	debug 1 "converting input to raw"
+	rq 3 convert-to-raw qemu-img convert -O raw "$input" "$img_raw" ||
+		fail "failed conversion to raw"
+fi
+
+if [ -n "$resize" ]; then
+	truncate --size "$resize" "$img_raw" ||
+		fail "failed truncate --size $resize"
+fi
+
+fmt=${oformat%%-*}
+variant=${oformat#*-}
+if [ "$variant" = "$fmt" ]; then
+	variant="standard"
+fi
+
+if [ "$fmt" = "qcow2" ]; then
+	compflag=""
+	[ "$opts" = "compressed" ] && compflag="-c"
+	rq 3 raw2qcow2 qemu-image convert -O qcow2 $compflag \
+		"$input" "$output" ||
+		fail "failed to convert to qcow2"
+else
+	# first convert to the format default (standard)
+	tvariant="standard"
+	target="${TEMP_D}/$fmt-$tvariant.img"
+	if [ "$variant" = "standard" ]; then
+		target="$output"
+		direct="1"
+	fi
+	if [ $direct = "1" ]; then
+		tvariant="$variant"
+		target="$output"
+	fi
+
+	debug 1 "converting to $fmt-$tvariant"
+	rq 3 to-$fmt-$tvariant vboxmanage convertfromraw \
+		"--format=${VBOX_FMT_MAP[$fmt]}" \
+		"--variant=${VBOX_VAR_MAP[$tvariant]}" \
+		"$img_raw" "$target" ||
+		fail "failed conversion to $fmt-${tvariant}"
+
+	rm "$img_raw"
+	if [ "$direct" != "1" ]; then
+		debug 1 "converting $fmt-$tvariant to $fmt-$variant"
+		rq 3 to-$fmt-$variant vboxmanage clonehd \
+			"--format=${VBOX_FMT_MAP[$fmt]}" \
+			"--variant=${VBOX_VAR_MAP[$variant]}" \
+			"$target" "$output"
+	fi
+fi
+
+debug 1 "created $output in $fmt-$variant"
+exit
+# vi: ts=4 noexpandtab
