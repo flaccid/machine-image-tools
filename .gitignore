@@ -1,0 +1,4 @@
+*.vmdk
+*.qcow2
+*.ova
+*.ovf
