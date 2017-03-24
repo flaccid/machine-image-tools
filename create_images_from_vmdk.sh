@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-([ -z "$1" ] && echo 'No image name provided.' && exit 1) || image="$1"
+[ -z "$1" ] && echo 'No image name provided.' && exit 1 || image="$1"
 
 # use the basic template
 cp -v templates/basic_template.ovf.xml "$image.ovf"
