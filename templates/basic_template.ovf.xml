@@ -16,7 +16,7 @@
    <VirtualSystem ovf:id="$IMAGE_UUID">
       <Info>A virtual machine</Info>
       <Name>$IMAGE_UUID</Name>
-      <OperatingSystemSection ovf:id="80" ovf:version="7" vmw:osType="rhel7_64Guest">
+      <OperatingSystemSection ovf:id="$OPERATING_SYSTEM_ID" ovf:version="$OPERATING_SYSTEM_VERSION" vmw:osType="$OPERATING_SYSTEM_TYPE">
          <Info>$OPERATING_SYSTEM_INFO</Info>
          <Description>$OPERATING_SYSTEM_INFO</Description>
       </OperatingSystemSection>
