@@ -21,6 +21,11 @@ Pull down the Ubuntu 16.04 VMDK and create an OVA:
     $ wget http://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-disk1.vmdk
     $ source env/ubuntu-xenial; ./create_images_from_vmdk.sh xenial-server-cloudimg-amd64
 
+## Upstream Resources
+
+- http://opennodecloud.com/howto/2013/12/25/howto-ON-ovf-reference.html
+- https://www.vmware.com/support/developer/ovf/ovf20/ovftool_201_userguide.pdf
+
 License and Authors
 -------------------
 - Author: Chris Fordham (<chris@fordham-nagy.id.au>)
