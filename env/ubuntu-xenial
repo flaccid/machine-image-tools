@@ -1,4 +1,5 @@
 # xenial-server-cloudimg-amd64
+export OVF_TEMPLATE=templates/from-ubuntu-server-cloud-init.ovf.xml
 export PRODUCT_INFO='A base Ubuntu 16.04 host.'
 export PRODUCT_VERSION='16.04'
 export PRODUCT_FULL_VERSION='16.04'

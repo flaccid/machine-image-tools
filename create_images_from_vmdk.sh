@@ -2,10 +2,8 @@
 
 [ -z "$1" ] && echo 'No image name provided.' && exit 1 || image="$1"
 
-# use the basic template
-cp -v templates/basic_template.ovf.xml "$image.ovf"
-
 # user specified template variables
+: "${OVF_TEMPLATE:=templates/basic_template.ovf.xml}"
 : "${PRODUCT_INFO:=A Linux Host}"
 : "${PRODUCT_VERSION:=latest}"
 : "${PRODUCT_FULL_VERSION:=latest}"
@@ -20,6 +18,9 @@ IMAGE_SIZE=$(stat --printf="%s" "$image-disk1.vmdk")
 IMAGE_CAPACITY=$(qemu-img info "$image-disk1.vmdk" | grep 'virtual size:' | tail -n1 | awk -F " " '{print $NF}')
 IMAGE_POPULATED_SIZE=0
 IMAGE_UUID=$(vboxmanage showhdinfo "$image-disk1.vmdk" | grep UUID | head -n1 | cut -d ':' -f 2 | xargs)
+
+# copy from source template
+cp -v "$OVF_TEMPLATE" "$image.ovf"
 
 # render the template
 sed -i "s/\$IMAGE_FILENAME/$IMAGE_FILENAME/" "$image.ovf"
