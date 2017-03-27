@@ -7,6 +7,8 @@ Scripts to convert and manipulate machine images for different virtualisation pl
 - coreutils
 - qemu
 - virtualbox
+- awk
+- sed
 
 Plus, `curl` and/or `wget` to fetch things like images.
 
