@@ -10,6 +10,9 @@
 : "${VENDOR_NAME:=ACME Inc.}"
 : "${OPERATING_SYSTEM_INFO:=Linux}"
 : "${OPERATING_SYSTEM_DESCRIPTION:=Linux}"
+: "${OPERATING_SYSTEM_ID:=101}"
+: "${OPERATING_SYSTEM_VERSION:=16.04}"
+: "${OPERATING_SYSTEM_TYPE:=Linux 64-Bit}"
 
 # derived template variables
 PRODUCT_NAME="$image"
