@@ -52,18 +52,22 @@ VENDOR_NAME='Red Hat Inc.'
 OPERATING_SYSTEM_INFO='Linux'
 OPERATING_SYSTEM_DESCRIPTION='Red Hat Enterprise Linux Guest Machine'
 
-sed -i "s/\$IMAGE_FILENAME/$IMAGE_FILENAME/" "$image.ovf"
-sed -i "s/\$IMAGE_SIZE/$IMAGE_SIZE/" "$image.ovf"
-sed -i "s/\$IMAGE_CAPACITY/$IMAGE_CAPACITY/" "$image.ovf"
-sed -i "s/\$IMAGE_POPULATED_SIZE/$IMAGE_POPULATED_SIZE/" "$image.ovf"
-sed -i "s/\$IMAGE_UUID/$IMAGE_UUID/" "$image.ovf"
-sed -i "s/\$PRODUCT_INFO/$PRODUCT_INFO/" "$image.ovf"
-sed -i "s/\$PRODUCT_NAME/$PRODUCT_NAME/" "$image.ovf"
-sed -i "s/\$PRODUCT_VERSION/$PRODUCT_VERSION/" "$image.ovf"
-sed -i "s/\$PRODUCT_FULL_VERSION/$PRODUCT_FULL_VERSION/" "$image.ovf"
-sed -i "s/\$VENDOR_NAME/$VENDOR_NAME/" "$image.ovf"
-sed -i "s/\$OPERATING_SYSTEM_INFO/$OPERATING_SYSTEM_INFO/" "$image.ovf"
-sed -i "s/\$OPERATING_SYSTEM_DESCRIPTION/$OPERATING_SYSTEM_DESCRIPTION/" "$image.ovf"
+# render the template
+sed -i -e "s/\$IMAGE_FILENAME/$IMAGE_FILENAME/" "$image.ovf"
+sed -i -e "s/\$IMAGE_SIZE/$IMAGE_SIZE/" "$image.ovf"
+sed -i -e "s/\$IMAGE_CAPACITY/$IMAGE_CAPACITY/" "$image.ovf"
+sed -i -e "s/\$IMAGE_POPULATED_SIZE/$IMAGE_POPULATED_SIZE/" "$image.ovf"
+sed -i -e "s/\$IMAGE_UUID/$IMAGE_UUID/" "$image.ovf"
+sed -i -e "s/\$PRODUCT_INFO/$PRODUCT_INFO/" "$image.ovf"
+sed -i -e "s/\$PRODUCT_NAME/$PRODUCT_NAME/" "$image.ovf"
+sed -i -e "s/\$PRODUCT_VERSION/$PRODUCT_VERSION/" "$image.ovf"
+sed -i -e "s/\$PRODUCT_FULL_VERSION/$PRODUCT_FULL_VERSION/" "$image.ovf"
+sed -i -e "s/\$VENDOR_NAME/$VENDOR_NAME/" "$image.ovf"
+sed -i -e "s/\$OPERATING_SYSTEM_INFO/$OPERATING_SYSTEM_INFO/" "$image.ovf"
+sed -i -e "s/\$OPERATING_SYSTEM_DESCRIPTION/$OPERATING_SYSTEM_DESCRIPTION/" "$image.ovf"
+sed -i -e "s/\$OPERATING_SYSTEM_ID/$OPERATING_SYSTEM_ID/" "$image.ovf"
+sed -i -e "s/\$OPERATING_SYSTEM_VERSION/$OPERATING_SYSTEM_VERSION/" "$image.ovf"
+sed -i -e "s/\$OPERATING_SYSTEM_TYPE/$OPERATING_SYSTEM_TYPE/" "$image.ovf"
 
 echo "$image.ovf contents:"
 echo '--'
