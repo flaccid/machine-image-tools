@@ -12,15 +12,18 @@ Scripts to convert and manipulate machine images for different virtualisation pl
 
 Plus, `curl` and/or `wget` to fetch things like images.
 
+Installing all of these with your native package manage should be trivial, e.g.
+
+    $ sudo apt-get -y install coreutils qemu virtualbox gawk sed curl wget
+
 ## Usage
 
 ### Examples
 
-Pull down the Ubuntu 16.04 VMDK, create an OVA and upload:
+Pull down the Ubuntu 16.04 VMDK, create an OVA and upload to vSphere:
 
-    $ sudo apt-get -y install coreutils qemu virtualbox gawk sed
     $ wget http://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-disk1.vmdk
-    $ source env/ubuntu-xenial; ./create_images_from_vmdk.sh xenial-server-cloudimg-amd64
+    $ source env/ubuntu-1604; ./create_images_from_vmdk.sh xenial-server-cloudimg-amd64
     $ ovftool --acceptAllEulas \
        -ds='NFS Datastore' \
        --net:'VM Network'='VM Network' \
@@ -32,14 +35,15 @@ Pull down the Ubuntu 16.04 VMDK, create an OVA and upload:
 
 Pull down a Debian qcow2 image, create an OVA:
 
-    $ source env/debian-8
-    $ image_url=http://cdimage.debian.org/cdimage/openstack/current/debian-8.7.3-20170323-openstack-amd64.qcow2 \
-        checksum=58fe8d1dec913b7d293318d5c5a3fad5c4cb265c04c39be763c042001862e8e0 \
-          ./create_images_from_qcow2.sh
+    $ source env/debian-8 && ./create_images_from_qcow2.sh
 
 Pull down a CentOS qcow2 image, create an OVA:
 
-    $ source env/centos-7; ./create_images_from_qcow2.sh
+    $ source env/centos-7 && ./create_images_from_qcow2.sh
+
+Pull down a RancherOS qcow2 image, create an OVA:
+
+    $ source env/rancheros && ./create_images_from_qcow2.sh
 
 ## Upstream Resources
 
