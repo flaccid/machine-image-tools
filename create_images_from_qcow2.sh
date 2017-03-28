@@ -10,8 +10,8 @@
 
 # build deps: curl, tar, qemu-utils, virtualbox
 
-: "${image_url:=https://s3-ap-southeast-2.amazonaws.com/iit-rhel-machine-images/rhel-guest-image-7.2-20151102.0.x86_64.qcow2}"
-: "${checksum:=5f880767ec6bf71beb532e17f1c45231640bbfdfbbb1dffb79d2c1b328388e0}"
+: "${image_url:=http://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud.qcow2}"
+: "${checksum:=0cfd71bfbb4dba3097999dcbe1e611d6c3407f1b30936e9a6e437f320dfb7be9}"
 
 image=$(basename "$image_url")
 
