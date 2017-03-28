@@ -16,10 +16,19 @@ Plus, `curl` and/or `wget` to fetch things like images.
 
 ### Example
 
-Pull down the Ubuntu 16.04 VMDK and create an OVA:
+Pull down the Ubuntu 16.04 VMDK, create an OVA and upload:
 
+    $ sudo apt-get -y install coreutils qemu virtualbox awk sed
     $ wget http://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-disk1.vmdk
     $ source env/ubuntu-xenial; ./create_images_from_vmdk.sh xenial-server-cloudimg-amd64
+    $ ovftool --acceptAllEulas \
+       -ds='NFS Datastore' \
+       --net:'VM Network'='VM Network' \
+       --vmFolder='VM Templates' \
+       --X:logToConsole=True \
+       --X:logLevel="verbose" \
+       --diskMode=thin \
+         ./xenial-server-cloudimg-amd64.ova vi://user@vcenter/datacenter1/host/cluster1
 
 ## Upstream Resources
 
