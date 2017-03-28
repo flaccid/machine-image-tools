@@ -1,0 +1,11 @@
+# xenial-server-cloudimg-amd64
+export OVF_TEMPLATE=templates/basic_template.ovf.xml
+export PRODUCT_INFO='A base Debian 8 host.'
+export PRODUCT_VERSION='8.7.3'
+export PRODUCT_FULL_VERSION='8.7.3'
+export VENDOR_NAME='Debian'
+export OPERATING_SYSTEM_INFO='Linux'
+export OPERATING_SYSTEM_DESCRIPTION='Debian GNU/Linux Guest Machine'
+export OPERATING_SYSTEM_ID=96
+export OPERATING_SYSTEM_VERSION=8.7.3
+export OPERATING_SYSTEM_TYPE='Debian 64-Bit'
