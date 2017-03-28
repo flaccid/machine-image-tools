@@ -14,7 +14,7 @@ Plus, `curl` and/or `wget` to fetch things like images.
 
 ## Usage
 
-### Example
+### Examples
 
 Pull down the Ubuntu 16.04 VMDK, create an OVA and upload:
 
@@ -29,6 +29,10 @@ Pull down the Ubuntu 16.04 VMDK, create an OVA and upload:
        --X:logLevel="verbose" \
        --diskMode=thin \
          ./xenial-server-cloudimg-amd64.ova vi://user@vcenter/datacenter1/host/cluster1
+
+Pull down a CentOS qcow2 image, create an OVA:
+
+    $ source env/centos-7; ./create_images_from_qcow2.sh
 
 ## Upstream Resources
 
