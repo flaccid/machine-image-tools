@@ -46,6 +46,14 @@ Pull down a CentOS qcow2 image, create an OVA:
 - http://opennodecloud.com/howto/2013/12/25/howto-ON-ovf-reference.html
 - https://www.vmware.com/support/developer/ovf/ovf20/ovftool_201_userguide.pdf
 
+### Respected Machine Image Homes
+
+Currently only trusting distro official sites :)
+
+- https://cloud-images.ubuntu.com/
+- http://cdimage.debian.org/cdimage/openstack/current/
+- http://cloud.centos.org/centos/7/images/
+
 License and Authors
 -------------------
 - Author: Chris Fordham (<chris@fordham-nagy.id.au>)
