@@ -30,6 +30,13 @@ Pull down the Ubuntu 16.04 VMDK, create an OVA and upload:
        --diskMode=thin \
          ./xenial-server-cloudimg-amd64.ova vi://user@vcenter/datacenter1/host/cluster1
 
+Pull down a Debian qcow2 image, create an OVA:
+
+    $ source env/debian-8
+    $ image_url=http://cdimage.debian.org/cdimage/openstack/current/debian-8.7.3-20170323-openstack-amd64.qcow2 \
+        checksum=58fe8d1dec913b7d293318d5c5a3fad5c4cb265c04c39be763c042001862e8e0 \
+          ./create_images_from_qcow2.sh
+
 Pull down a CentOS qcow2 image, create an OVA:
 
     $ source env/centos-7; ./create_images_from_qcow2.sh
