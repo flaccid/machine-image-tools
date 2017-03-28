@@ -1,0 +1,11 @@
+# CentOS-7-x86_64-GenericCloud
+export OVF_TEMPLATE=templates/basic_template.ovf.xml
+export PRODUCT_INFO='A base CentOS 7 host.'
+export PRODUCT_VERSION='7'
+export PRODUCT_FULL_VERSION='7'
+export VENDOR_NAME='CentOS'
+export OPERATING_SYSTEM_INFO='Linux'
+export OPERATING_SYSTEM_DESCRIPTION='CentOS Linux Guest Machine'
+export OPERATING_SYSTEM_ID=80
+export OPERATING_SYSTEM_VERSION=7
+export OPERATING_SYSTEM_TYPE='RedHat Enterprise Linux 64-Bit'
