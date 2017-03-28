@@ -1,0 +1,11 @@
+# rancheros-openstack
+export OVF_TEMPLATE=templates/basic_template.ovf.xml
+export PRODUCT_INFO='RancherOS, a small container OS.'
+export PRODUCT_VERSION='0.9.1'
+export PRODUCT_FULL_VERSION='0.9.1'
+export VENDOR_NAME='Rancher Labs'
+export OPERATING_SYSTEM_INFO='Linux'
+export OPERATING_SYSTEM_DESCRIPTION='RancherOS, a small container OS.''
+export OPERATING_SYSTEM_ID=101
+export OPERATING_SYSTEM_VERSION=0.9.1
+export OPERATING_SYSTEM_TYPE='Linux 64-Bit'
