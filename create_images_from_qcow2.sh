@@ -10,8 +10,8 @@
 
 # build deps: curl, tar, qemu-utils, virtualbox
 
-: "${image_url:=http://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud.qcow2}"
-: "${checksum:=0cfd71bfbb4dba3097999dcbe1e611d6c3407f1b30936e9a6e437f320dfb7be9}"
+: "${IMAGE_URL:=http://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud.qcow2}"
+: "${IMAGE_SHA256SUM:=0cfd71bfbb4dba3097999dcbe1e611d6c3407f1b30936e9a6e437f320dfb7be9}"
 
 image=$(basename "$image_url")
 
