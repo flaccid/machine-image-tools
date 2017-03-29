@@ -20,7 +20,7 @@ if [ -e "$image" ] && echo 'Verifying checksum...' && sha256sum "$image" | grep 
 	echo 'File already downloaded, checksum matches.'
 else
 	echo "Downloading $image..."
-	curl -Ss "$image_url" > "$image"
+	curl -Ss "$IMAGE_URL" > "$image"
 fi
 
 image="${image%.*}"
