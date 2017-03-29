@@ -49,6 +49,7 @@ Pull down a RancherOS qcow2 image, create an OVA:
 
 - http://opennodecloud.com/howto/2013/12/25/howto-ON-ovf-reference.html
 - https://www.vmware.com/support/developer/ovf/ovf20/ovftool_201_userguide.pdf
+- http://wiki.qemu-project.org/Features/Qcow3
 
 ### Respected Machine Image Homes
 
