@@ -1,0 +1,9 @@
+dependencies:
+  post:
+    - apt-get -y install coreutils qemu virtualbox gawk sed curl wget
+compile:
+  override:
+    - echo 'no compile yet.'
+test:
+  post:
+    - echo 'no tests yet.'
