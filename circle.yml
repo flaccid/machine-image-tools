@@ -1,6 +1,6 @@
 dependencies:
   post:
-    - apt-get -y install coreutils qemu virtualbox gawk sed curl wget
+    - sudo apt-get -y install coreutils qemu virtualbox gawk sed curl wget
 compile:
   override:
     - echo 'no compile yet.'
