@@ -1,5 +1,6 @@
 dependencies:
   post:
+    - sudo apt-get -y update
     - sudo apt-get -y install coreutils qemu virtualbox gawk sed curl wget
 compile:
   override:
