@@ -4,7 +4,8 @@ dependencies:
     - sudo apt-get -y install coreutils qemu virtualbox gawk sed curl wget
 compile:
   override:
-    - echo 'no compile yet.'
-test:
+    - source env/debian-8 && ./create_images_from_qcow2.sh
+    - source env/centos-7 && ./create_images_from_qcow2.sh
+    - source env/rancheros && ./create_images_from_qcow2.sh
   post:
     - echo 'no tests yet.'
