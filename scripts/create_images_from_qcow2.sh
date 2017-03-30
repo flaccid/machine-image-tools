@@ -36,7 +36,7 @@ echo "create images from $image"
 
 # verify checksum
 if [ ! -e "$image" ]; then
-	echo "--> fetching $image..."
+	echo "--> fetching $IMAGE_URL"
 	curl -LSs "$IMAGE_URL" > "$image"
 	! verify_image "$image" && exit 1
 else
