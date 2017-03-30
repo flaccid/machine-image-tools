@@ -45,6 +45,16 @@ Pull down a RancherOS qcow2 image, create an OVA:
 
     $ source env/rancheros && ./create_images_from_qcow2.sh
 
+## Downloads
+
+See the [releases](https://github.com/flaccid/machine-image-tools/releases) page. The intent is to provide all possible image formats for the following:
+
+- Debian 8
+- Ubuntu 16.04
+- CentOS 7
+- RancherOS
+- CoreOS (stable)
+
 ## Upstream Resources
 
 - http://opennodecloud.com/howto/2013/12/25/howto-ON-ovf-reference.html
@@ -58,6 +68,10 @@ Currently only trusting distro official sites :)
 - https://cloud-images.ubuntu.com/
 - http://cdimage.debian.org/cdimage/openstack/current/
 - http://cloud.centos.org/centos/7/images/
+
+### Alternatives
+
+- https://github.com/djui/docker-vbox-img
 
 License and Authors
 -------------------
