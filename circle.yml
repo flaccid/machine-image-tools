@@ -1,7 +1,7 @@
 dependencies:
   post:
     - sudo apt-get -y update
-    - sudo apt-get -y install coreutils qemu virtualbox gawk sed curl wget
+    - sudo apt-get -y install coreutils qemu virtualbox gawk sed curl wget virtualbox-dkms linux-headers-generic
 compile:
   override:
     - source env/debian-8 && ./create_images_from_qcow2.sh
