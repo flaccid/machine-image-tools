@@ -4,7 +4,9 @@ dependencies:
     - sudo apt-get -y install coreutils qemu virtualbox gawk sed curl wget virtualbox-dkms linux-headers-generic
 compile:
   override:
-    - source env/centos-7 && ./create_images_from_qcow2.sh
-    - source env/rancheros && ./create_images_from_qcow2.sh
+    - cd dist && source ../scripts/env/debian-8 && ../scripts/create_images_from_qcow2.sh
+    - cd dist && source ../scripts/env/ubuntu-1604 ../scripts/create_images_from_qcow2.sh
+    - cd dist && source ../scripts/env/centos-7 && ../scripts/create_images_from_qcow2.sh
+    - cd dist && source ../scripts/env/rancheros && ./scripts/create_images_from_qcow2.sh
   post:
     - echo 'no tests yet.'
