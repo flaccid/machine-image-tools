@@ -13,16 +13,36 @@
 : "${IMAGE_URL:=http://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud.qcow2}"
 : "${IMAGE_SHA256SUM:=0cfd71bfbb4dba3097999dcbe1e611d6c3407f1b30936e9a6e437f320dfb7be9}"
 
+verify_image()
+{
+	echo 'verifying checksum...'
+	if sha256sum "$1" | grep "$IMAGE_SHA256SUM"; then
+		echo 'checksum matches.'
+		return 0
+	else
+		echo 'checksum does not match.'
+		return 1
+	fi
+}
+
 image=$(basename "$IMAGE_URL")
+ext="${image##*.}"
+
+echo "create images from $image"
 
 # verify checksum
-if [ -e "$image" ] && echo 'Verifying checksum...' && sha256sum "$image" | grep "$checksum"; then
-	echo 'File already downloaded, checksum matches.'
+if [ ! -e "$image" ]; then
+	echo "--> fetching $image..."
+	curl -LSs "$IMAGE_URL" > "$image"
+	! verify_image "$image" && exit 1
 else
-	echo "Downloading $image..."
-	curl -Ss "$IMAGE_URL" > "$image"
+	echo 'file already downloaded.'
+	! verify_image "$image" && exit 1
 fi
 
+# unarchive if needed etc.
+
+# strip out extension(s)
 image="${image%.*}"
 
 # convert qcow2 to raw
