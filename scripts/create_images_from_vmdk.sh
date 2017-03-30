@@ -1,4 +1,4 @@
-#!/bin/sh -e
+#! /bin/bash -e
 
 [ -z "$1" ] && echo 'No image name provided.' && exit 1 || image="$1"
 
