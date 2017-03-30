@@ -60,7 +60,7 @@ img-convert "$image.qcow2" vmdk-stream "$image-disk1.vmdk"
 qemu-img info "$image-disk1.vmdk"
 # vboxmanage showhdinfo "$image-disk1.vmdk"
 
-cp -v templates/basic_template.ovf.xml "$image.ovf"
+cp -v "$OVF_TEMPLATE" "$image.ovf"
 
 IMAGE_FILENAME="$image-disk1.vmdk"
 IMAGE_SIZE=$(stat --printf="%s" "$image-disk1.vmdk")
