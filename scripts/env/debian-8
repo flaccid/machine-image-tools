@@ -1,7 +1,7 @@
 # debian-8.7.3-20170323-openstack-amd64
 export IMAGE_URL=http://cdimage.debian.org/cdimage/openstack/current/debian-8.7.3-20170323-openstack-amd64.qcow2
 export IMAGE_SHA256SUM=58fe8d1dec913b7d293318d5c5a3fad5c4cb265c04c39be763c042001862e8e0
-export OVF_TEMPLATE=templates/basic_template.ovf.xml
+export OVF_TEMPLATE=../templates/basic_template.ovf.xml
 export PRODUCT_INFO='A base Debian 8 host.'
 export PRODUCT_VERSION='8.7.3'
 export PRODUCT_FULL_VERSION='8.7.3'
