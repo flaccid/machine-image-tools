@@ -7,7 +7,7 @@ compile:
     - cd dist && source ../scripts/env/debian-8 && ../scripts/create_images_from_qcow2.sh
     - cd dist && source ../scripts/env/ubuntu-1604 ../scripts/create_images_from_vmdk.sh xenial-server-cloudimg-amd64
     - cd dist && source ../scripts/env/centos-7 && ../scripts/create_images_from_qcow2.sh
-    - cd dist && source ../scripts/env/rancheros && ./scripts/create_images_from_qcow2.sh
+    - cd dist && source ../scripts/env/rancheros && ../scripts/create_images_from_qcow2.sh
     - cd dist && ls -l
   post:
     - echo 'no tests yet.'
