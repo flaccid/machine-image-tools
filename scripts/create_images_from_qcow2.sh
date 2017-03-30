@@ -14,9 +14,8 @@
 : "${IMAGE_SHA256SUM:=0cfd71bfbb4dba3097999dcbe1e611d6c3407f1b30936e9a6e437f320dfb7be9}"
 
 # ensure the contrib/ is in path
-export PATH="$PATH:$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
-echo "PATH=$PATH"
+export PATH="$PATH:$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/../contrib"
+# echo "PATH=$PATH"
 
 verify_image()
 {
