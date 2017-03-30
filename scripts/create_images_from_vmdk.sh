@@ -14,6 +14,37 @@
 : "${OPERATING_SYSTEM_VERSION:=16.04}"
 : "${OPERATING_SYSTEM_TYPE:=Linux 64-Bit}"
 
+# ensure the contrib/ is in path
+export PATH="$PATH:$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/../contrib"
+# echo "PATH=$PATH"
+
+verify_image()
+{
+	echo 'verifying checksum...'
+	if sha256sum "$1" | grep "$IMAGE_SHA256SUM"; then
+		echo 'checksum matches.'
+		return 0
+	else
+		echo 'checksum does not match.'
+		return 1
+	fi
+}
+
+image=$(basename "$IMAGE_URL")
+ext="${image##*.}"
+
+echo "create images from $image"
+
+# verify checksum
+if [ ! -e "$image" ]; then
+	echo "--> fetching $IMAGE_URL"
+	curl -LSs "$IMAGE_URL" > "$image"
+	! verify_image "$image" && exit 1
+else
+	echo 'file already downloaded.'
+	! verify_image "$image" && exit 1
+fi
+
 # derived template variables
 PRODUCT_NAME="$image"
 IMAGE_FILENAME="$image-disk1.vmdk"
