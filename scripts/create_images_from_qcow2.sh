@@ -16,6 +16,8 @@
 # ensure the contrib/ is in path
 export PATH="$PATH:$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+echo "PATH=$PATH"
+
 verify_image()
 {
 	echo 'verifying checksum...'
