@@ -1,4 +1,4 @@
-#! /bin/sh -e
+#! /bin/bash -e
 
 # basic process:
 # 1. download qcow image if needed
@@ -12,6 +12,9 @@
 
 : "${IMAGE_URL:=http://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud.qcow2}"
 : "${IMAGE_SHA256SUM:=0cfd71bfbb4dba3097999dcbe1e611d6c3407f1b30936e9a6e437f320dfb7be9}"
+
+# ensure the contrib/ is in path
+export PATH="$PATH:$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 verify_image()
 {
@@ -53,7 +56,7 @@ qemu-img convert "$image.qcow2" "$image.img"
 echo 'Converting to vmdk...'
 # qemu-img convert -f qcow2 -O vmdk "$image.qcow2" "$image-disk1.vmdk"
 # python2.7 /usr/lib/python2.7/dist-packages/VMDKstream.py "$image.img" "$image-disk1.vmdk"
-./img-convert "$image.qcow2" vmdk-stream "$image-disk1.vmdk"
+img-convert "$image.qcow2" vmdk-stream "$image-disk1.vmdk"
 qemu-img info "$image-disk1.vmdk"
 # vboxmanage showhdinfo "$image-disk1.vmdk"
 
