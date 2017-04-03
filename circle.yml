@@ -2,6 +2,7 @@ dependencies:
   post:
     - sudo apt-get -y update
     - sudo apt-get -y install coreutils qemu virtualbox gawk sed curl wget
+    - cd /tmp && wget https://github.com/tcnksm/ghr/releases/download/v0.5.4/ghr_v0.5.4_linux_amd64.zip && unzip ghr_v0.5.4_linux_amd64.zip && sudo mv ./ghr /usr/local/bin/
 compile:
   override:
     - cd dist && source ../scripts/env/debian-8 && ../scripts/create_images_from_qcow2.sh
@@ -16,4 +17,4 @@ deployment:
     branch: master
     commands:
     # Publish assets to Github
-    - ghr -t "$GITHUB_TOKEN" -u "$CIRCLE_PROJECT_USERNAME" -r "$CIRCLE_PROJECT_REPONAME" -prerelease -delete "v0.0.$CIRCLE_BUILD_NUM" dist/ || true
+    - ghr -t "$GITHUB_TOKEN" -u "$CIRCLE_PROJECT_USERNAME" -r "$CIRCLE_PROJECT_REPONAME" -prerelease -delete "v0.0.$CIRCLE_BUILD_NUM" dist/
