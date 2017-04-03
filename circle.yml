@@ -6,15 +6,17 @@ dependencies:
 compile:
   override:
     - cd dist && source ../scripts/env/debian-8 && ../scripts/create_images_from_qcow2.sh
-#    - cd dist && source ../scripts/env/ubuntu-1604 && ../scripts/create_images_from_vmdk.sh xenial-server-cloudimg-amd64
-#    - cd dist && source ../scripts/env/centos-7 && ../scripts/create_images_from_qcow2.sh
-#    - cd dist && source ../scripts/env/rancheros && ../scripts/create_images_from_qcow2.sh
+    - cd dist && source ../scripts/env/ubuntu-1604 && ../scripts/create_images_from_vmdk.sh xenial-server-cloudimg-amd64
+    - cd dist && source ../scripts/env/centos-7 && ../scripts/create_images_from_qcow2.sh
+    - cd dist && source ../scripts/env/rancheros && ../scripts/create_images_from_qcow2.sh
     - cd dist && ls -l
+test:
   post:
     - echo 'no tests yet.'
 deployment:
   release:
     branch: master
     commands:
-    # Publish assets to Github
+    # publish assets to github
+    - rm -f dist/.gitignore
     - ghr -t "$GITHUB_TOKEN" -u "$CIRCLE_PROJECT_USERNAME" -r "$CIRCLE_PROJECT_REPONAME" -prerelease -delete "v0.0.$CIRCLE_BUILD_NUM" dist/
