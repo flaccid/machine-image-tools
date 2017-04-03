@@ -60,6 +60,7 @@ See the [releases](https://github.com/flaccid/machine-image-tools/releases) page
 - http://opennodecloud.com/howto/2013/12/25/howto-ON-ovf-reference.html
 - https://www.vmware.com/support/developer/ovf/ovf20/ovftool_201_userguide.pdf
 - http://wiki.qemu-project.org/Features/Qcow3
+- https://github.com/tcnksm/ghr/wiki/Integrate-ghr-with-CI-as-a-Service
 
 ### Respected Machine Image Homes
 
