@@ -20,8 +20,13 @@ export PATH="$PATH:$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/../contrib"
 
 verify_image()
 {
+	if type shasum > /dev/null 2>&1; then
+		sha256_cmd='shasum -a 256'
+	else
+		sha256_cmd='sha256sum'
+	fi
 	echo 'verifying checksum...'
-	if sha256sum "$1" | grep "$IMAGE_SHA256SUM"; then
+	if $sha256_cmd "$1" | grep "$IMAGE_SHA256SUM"; then
 		echo 'checksum matches.'
 		return 0
 	else
@@ -46,50 +51,50 @@ else
 fi
 
 # derived template variables
-PRODUCT_NAME="$image"
-IMAGE_FILENAME="$image-disk1.vmdk"
-IMAGE_SIZE=$(wc -c "$image-disk1.vmdk" | awk {'print $1'})
-IMAGE_CAPACITY=$(qemu-img info "$image-disk1.vmdk" | grep 'virtual size:' | tail -n1 | awk -F " " '{print $NF}')
+PRODUCT_NAME=${image%-disk1.vmdk}
+IMAGE_FILENAME="$image"
+IMAGE_SIZE=$(wc -c "$IMAGE_FILENAME" | awk {'print $1'})
+IMAGE_CAPACITY=$(qemu-img info "$IMAGE_FILENAME" | grep 'virtual size:' | tail -n1 | awk -F " " '{print $NF}')
 IMAGE_POPULATED_SIZE=0
-IMAGE_UUID=$(vboxmanage showhdinfo "$image-disk1.vmdk" | grep UUID | head -n1 | cut -d ':' -f 2 | xargs)
+IMAGE_UUID=$(vboxmanage showhdinfo "$IMAGE_FILENAME" | grep UUID | head -n1 | cut -d ':' -f 2 | xargs)
 
 # copy from source template
-cp -v "$OVF_TEMPLATE" "$image.ovf"
+cp -v "$OVF_TEMPLATE" "$PRODUCT_NAME.ovf"
 
 # render the template
-sed -i -e "s/\$IMAGE_FILENAME/$IMAGE_FILENAME/" "$image.ovf"
-sed -i -e "s/\$IMAGE_SIZE/$IMAGE_SIZE/" "$image.ovf"
-sed -i -e "s/\$IMAGE_CAPACITY/$IMAGE_CAPACITY/" "$image.ovf"
-sed -i -e "s/\$IMAGE_POPULATED_SIZE/$IMAGE_POPULATED_SIZE/" "$image.ovf"
-sed -i -e "s/\$IMAGE_UUID/$IMAGE_UUID/" "$image.ovf"
-sed -i -e "s/\$PRODUCT_INFO/$PRODUCT_INFO/" "$image.ovf"
-sed -i -e "s/\$PRODUCT_NAME/$PRODUCT_NAME/" "$image.ovf"
-sed -i -e "s/\$PRODUCT_VERSION/$PRODUCT_VERSION/" "$image.ovf"
-sed -i -e "s/\$PRODUCT_FULL_VERSION/$PRODUCT_FULL_VERSION/" "$image.ovf"
-sed -i -e "s/\$VENDOR_NAME/$VENDOR_NAME/" "$image.ovf"
-sed -i -e "s/\$OPERATING_SYSTEM_INFO/$OPERATING_SYSTEM_INFO/" "$image.ovf"
-sed -i -e "s/\$OPERATING_SYSTEM_DESCRIPTION/$OPERATING_SYSTEM_DESCRIPTION/" "$image.ovf"
-sed -i -e "s/\$OPERATING_SYSTEM_ID/$OPERATING_SYSTEM_ID/" "$image.ovf"
-sed -i -e "s/\$OPERATING_SYSTEM_VERSION/$OPERATING_SYSTEM_VERSION/" "$image.ovf"
-sed -i -e "s/\$OPERATING_SYSTEM_TYPE/$OPERATING_SYSTEM_TYPE/" "$image.ovf"
+sed -i -e "s/\$IMAGE_FILENAME/$IMAGE_FILENAME/" "$PRODUCT_NAME.ovf"
+sed -i -e "s/\$IMAGE_SIZE/$IMAGE_SIZE/" "$PRODUCT_NAME.ovf"
+sed -i -e "s/\$IMAGE_CAPACITY/$IMAGE_CAPACITY/" "$PRODUCT_NAME.ovf"
+sed -i -e "s/\$IMAGE_POPULATED_SIZE/$IMAGE_POPULATED_SIZE/" "$PRODUCT_NAME.ovf"
+sed -i -e "s/\$IMAGE_UUID/$IMAGE_UUID/" "$PRODUCT_NAME.ovf"
+sed -i -e "s/\$PRODUCT_INFO/$PRODUCT_INFO/" "$PRODUCT_NAME.ovf"
+sed -i -e "s/\$PRODUCT_NAME/$PRODUCT_NAME/" "$PRODUCT_NAME.ovf"
+sed -i -e "s/\$PRODUCT_VERSION/$PRODUCT_VERSION/" "$PRODUCT_NAME.ovf"
+sed -i -e "s/\$PRODUCT_FULL_VERSION/$PRODUCT_FULL_VERSION/" "$PRODUCT_NAME.ovf"
+sed -i -e "s/\$VENDOR_NAME/$VENDOR_NAME/" "$PRODUCT_NAME.ovf"
+sed -i -e "s/\$OPERATING_SYSTEM_INFO/$OPERATING_SYSTEM_INFO/" "$PRODUCT_NAME.ovf"
+sed -i -e "s/\$OPERATING_SYSTEM_DESCRIPTION/$OPERATING_SYSTEM_DESCRIPTION/" "$PRODUCT_NAME.ovf"
+sed -i -e "s/\$OPERATING_SYSTEM_ID/$OPERATING_SYSTEM_ID/" "$PRODUCT_NAME.ovf"
+sed -i -e "s/\$OPERATING_SYSTEM_VERSION/$OPERATING_SYSTEM_VERSION/" "$PRODUCT_NAME.ovf"
+sed -i -e "s/\$OPERATING_SYSTEM_TYPE/$OPERATING_SYSTEM_TYPE/" "$PRODUCT_NAME.ovf"
 
-echo "$image.ovf contents:"
+echo "$PRODUCT_NAME.ovf contents:"
 echo '--'
-cat "$image.ovf"
+cat "$PRODUCT_NAME.ovf"
 echo '--'
 
 # create mf
-cat <<EOF> "$image.mf"
-SHA1($image-disk1.vmdk)= $(shasum -a 1 $image-disk1.vmdk | cut -d ' ' -f 1)
-SHA1($image.ovf)= $(shasum -a 1 $image.ovf | cut -d ' ' -f 1)
+cat <<EOF> "$PRODUCT_NAME.mf"
+SHA1($IMAGE_FILENAME)= $(shasum -a 1 $image | cut -d ' ' -f 1)
+SHA1($PRODUCT_NAME.ovf)= $(shasum -a 1 $PRODUCT_NAME.ovf | cut -d ' ' -f 1)
 EOF
-echo "-- $image.mf -- "
-cat "$image.mf"
+echo "-- $PRODUCT_NAME.mf -- "
+cat "$PRODUCT_NAME.mf"
 echo '----'
 
 # create vmware ova
 echo 'Creating ova...'
-tar cvf "$image.ova" "$image.ovf"
-tar uvf "$image.ova" "$image.mf" "$image-disk1.vmdk"
+tar cvf "$PRODUCT_NAME.ova" "$PRODUCT_NAME.ovf"
+tar uvf "$PRODUCT_NAME.ova" "$PRODUCT_NAME.mf" "$image"
 
 echo 'Done.'
