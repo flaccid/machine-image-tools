@@ -19,8 +19,13 @@ export PATH="$PATH:$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/../contrib"
 
 verify_image()
 {
+	if type shasum > /dev/null 2>&1; then
+		sha256_cmd='shasum -a 256'
+	else
+		sha256_cmd='sha256sum'
+	fi
 	echo 'verifying checksum...'
-	if sha256sum "$1" | grep "$IMAGE_SHA256SUM"; then
+	if $sha256_cmd "$1" | grep "$IMAGE_SHA256SUM"; then
 		echo 'checksum matches.'
 		return 0
 	else
