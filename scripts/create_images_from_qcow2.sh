@@ -55,8 +55,12 @@ fi
 image="${image%.*}"
 
 # convert qcow2 to raw
-echo 'Converting to raw...'
-qemu-img convert "$image.qcow2" "$image.img"
+echo "converting $image.qcow2 to raw..."
+if [ ! -e "$FILENAME_PREFIX" ]; then
+	qemu-img convert "$image.qcow2" "$FILENAME_PREFIX.img"
+else
+	qemu-img convert "$image.qcow2" "$image.img"
+fi
 
 # convert qcow2 to vmdk
 echo 'Converting to vmdk...'
