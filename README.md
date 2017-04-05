@@ -22,8 +22,7 @@ Installing all of these with your native package manage should be trivial, e.g.
 
 Pull down the Ubuntu 16.04 VMDK, create an OVA and upload to vSphere:
 
-    $ wget http://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-disk1.vmdk
-    $ source env/ubuntu-1604; ./create_images_from_vmdk.sh xenial-server-cloudimg-amd64
+    $ . scripts/env/ubuntu-1604 && ./create_images_from_vmdk.sh xenial-server-cloudimg-amd64
     $ ovftool --acceptAllEulas \
        -ds='NFS Datastore' \
        --net:'VM Network'='VM Network' \
@@ -35,15 +34,15 @@ Pull down the Ubuntu 16.04 VMDK, create an OVA and upload to vSphere:
 
 Pull down a Debian qcow2 image, create an OVA:
 
-    $ source env/debian-8 && ./create_images_from_qcow2.sh
+    $ . scripts/env/debian-8 && scripts/create_images_from_qcow2.sh
 
 Pull down a CentOS qcow2 image, create an OVA:
 
-    $ source env/centos-7 && ./create_images_from_qcow2.sh
+    $ . scripts/env/centos-7 && scripts/create_images_from_qcow2.sh
 
 Pull down a RancherOS qcow2 image, create an OVA:
 
-    $ source env/rancheros && ./create_images_from_qcow2.sh
+    $ . scripts/env/rancheros && scripts/create_images_from_qcow2.sh
 
 ## Downloads
 
