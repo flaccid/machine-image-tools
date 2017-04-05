@@ -63,13 +63,21 @@ else
 fi
 
 # convert qcow2 to vmdk
-echo 'Converting to vmdk...'
-# qemu-img convert -f qcow2 -O vmdk "$image.qcow2" "$image-disk1.vmdk"
-# python2.7 /usr/lib/python2.7/dist-packages/VMDKstream.py "$image.img" "$image-disk1.vmdk"
-img-convert "$image.qcow2" vmdk-stream "$image-disk1.vmdk"
-qemu-img info "$image-disk1.vmdk"
+# 		of note:
+# 			qemu-img convert -f qcow2 -O vmdk "$image.qcow2" "$image-disk1.vmdk"
+# 			python2.7 /usr/lib/python2.7/dist-packages/VMDKstream.py "$image.img" "$image-disk1.vmdk"
+echo "converting $image.qcow2 to vmdk..."
+if [ ! -e "$FILENAME_PREFIX" ]; then
+	img-convert "$image.qcow2" vmdk-stream "$FILENAME_PREFIX-disk1.vmdk"
+	qemu-img info "$FILENAME_PREFIX-disk1.vmdk"
+else
+	img-convert "$image.qcow2" vmdk-stream "$image-disk1.vmdk"
+	qemu-img info "$image-disk1.vmdk"
+fi
+
 # vboxmanage showhdinfo "$image-disk1.vmdk"
 
+# copy the ovf template
 cp -v "$OVF_TEMPLATE" "$image.ovf"
 
 IMAGE_FILENAME="$image-disk1.vmdk"
