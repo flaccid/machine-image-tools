@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/flaccid/machine-image-tools/tree/master.svg?style=svg)](https://circleci.com/gh/flaccid/machine-image-tools/tree/master)
+
 # machine-image-tools
 
 Scripts to convert and manipulate machine images for different virtualisation platforms.
@@ -15,6 +17,16 @@ Plus, `curl` and/or `wget` to fetch things like images.
 Installing all of these with your native package manage should be trivial, e.g.
 
     $ sudo apt-get -y install coreutils qemu virtualbox gawk sed curl wget
+
+## File Names
+
+Proposed general scheme:
+
+```
+<prefix>-<version>-<build-date>-<arch>-<suffix>
+```
+
+For example, `debian-8.7.3-20170323-amd64.ova`
 
 ## Usage
 
@@ -43,6 +55,9 @@ Pull down a CentOS qcow2 image, create an OVA:
 Pull down a RancherOS qcow2 image, create an OVA:
 
     $ . scripts/env/rancheros && scripts/create_images_from_qcow2.sh
+
+CoreOS
+    $ . scripts/env/coreos-stable && scripts/create_images_from_qcow2.sh
 
 ## Downloads
 
