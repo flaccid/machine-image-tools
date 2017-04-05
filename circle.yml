@@ -21,4 +21,7 @@ deployment:
     commands:
     # publish assets to github
     - rm -f dist/.gitignore
+    # temporary workaround
+    # for some reason with this file we see ghr return 422 Validation Failed [{Resource:ReleaseAsset Field:size Code:custom Message:size is not included in the list}]
+    - rm -f CentOS-7-x86_64-GenericCloud.img
     - ghr -t "$GITHUB_TOKEN" -u "$CIRCLE_PROJECT_USERNAME" -r "$CIRCLE_PROJECT_REPONAME" -prerelease -delete "v0.0.$CIRCLE_BUILD_NUM" dist/
