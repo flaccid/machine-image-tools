@@ -4,7 +4,7 @@
 
 # coreos_production_openstack_image
 export IMAGE_URL=https://stable.release.core-os.net/amd64-usr/current/coreos_production_openstack_image.img.bz2
-export IMAGE_SHA256SUM=58c19119dd6427cc58a4079862953791e9ad27d00f837beb96ebc70f85e5eaa7
+export IMAGE_SHA256SUM=37f170c4b74a47f08702c2dbf39ec13940c1f09f93e689485f5eb1ddd31f0e41
 export OVF_TEMPLATE=../templates/basic_template.ovf.xml
 export PRODUCT_INFO='CoreOS, a container OS.'
 export PRODUCT_VERSION='1353.0.0'
