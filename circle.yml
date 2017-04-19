@@ -6,9 +6,10 @@ dependencies:
 compile:
   override:
     - cd dist && source ../scripts/env/debian-8 && ../scripts/create_images_from_qcow2.sh
-    - cd dist && source ../scripts/env/ubuntu-1604 && ../scripts/create_images_from_vmdk.sh xenial-server-cloudimg-amd64:
+    - cd dist && source ../scripts/env/ubuntu-1604 && ../scripts/create_images_from_vmdk.sh:
         timeout: 1200
-    - cd dist && source ../scripts/env/centos-7 && ../scripts/create_images_from_qcow2.sh
+    - cd dist && source ../scripts/env/centos-7 && ../scripts/create_images_from_qcow2.sh:
+        timeout: 1200
     # - cd dist && source ../scripts/env/rancheros && ../scripts/create_images_from_qcow2.sh
     # - cd dist && source ../scripts/env/coreos-stable && ../scripts/create_images_from_qcow2.sh
     - cd dist && ls -l
@@ -24,4 +25,5 @@ deployment:
     # temporary workaround
     # for some reason with this file we see ghr return 422 Validation Failed [{Resource:ReleaseAsset Field:size Code:custom Message:size is not included in the list}]
     - rm -f dist/CentOS-7-x86_64-GenericCloud.img
-    - ghr -t "$GITHUB_TOKEN" -u "$CIRCLE_PROJECT_USERNAME" -r "$CIRCLE_PROJECT_REPONAME" -prerelease -delete "v0.0.$CIRCLE_BUILD_NUM" dist/
+    - ghr -t "$GITHUB_TOKEN" -u "$CIRCLE_PROJECT_USERNAME" -r "$CIRCLE_PROJECT_REPONAME" -prerelease -delete "v0.0.$CIRCLE_BUILD_NUM" dist/:
+    timeout: 1200
