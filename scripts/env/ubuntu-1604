@@ -1,6 +1,6 @@
 # xenial-server-cloudimg-amd64
-export IMAGE_URL=http://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-disk1.vmdk
-export IMAGE_SHA256SUM=665b70307a63f2e9060873b5ee2bc9f64b3ec0a98434ba7d97c3d81725d97178
+export IMAGE_URL=http://cloud-images.ubuntu.com/xenial/20170418/xenial-server-cloudimg-amd64-disk1.vmdk
+export IMAGE_SHA256SUM=f67256855b334d69e441cb403f280fcafc17b9b49db1edffcb6e32b9d65e0620
 #export OVF_TEMPLATE=templates/from-ubuntu-server-cloud-init.ovf.xml
 export OVF_TEMPLATE=../templates/basic_template.ovf.xml
 #export OVF_TEMPLATE=templates/cloud_init_customizations_template.ovf.xml
