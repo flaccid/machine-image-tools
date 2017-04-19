@@ -79,6 +79,9 @@ qemu-img info "$FILENAME_PREFIX-disk1.vmdk"
 
 # vboxmanage showhdinfo "$image-disk1.vmdk"
 
+# mv the file to dest prefix (this can be improved)
+mv "$image_filename" "$FILENAME_PREFIX.qcow2" || true
+
 # copy the ovf template
 cp -v "$OVF_TEMPLATE" "$FILENAME_PREFIX.ovf"
 
