@@ -1,9 +1,11 @@
 #! /bin/bash -e
 
-[ -z "$1" ] && echo 'No image name provided.' && exit 1 || image="$1"
+: "${IMAGE_URL:=http://cloud-images.ubuntu.com/xenial/20170418/xenial-server-cloudimg-amd64-disk1.vmdk}"
+: "${IMAGE_SHA256SUM:=f67256855b334d69e441cb403f280fcafc17b9b49db1edffcb6e32b9d65e0620}"
+: "${FILENAME_PREFIX:=$(basename $IMAGE_URL)}"
 
 # user specified template variables
-: "${OVF_TEMPLATE:=templates/basic_template.ovf.xml}"
+: "${OVF_TEMPLATE:=../templates/basic_template.ovf.xml}"
 : "${PRODUCT_INFO:=A Linux Host}"
 : "${PRODUCT_VERSION:=latest}"
 : "${PRODUCT_FULL_VERSION:=latest}"
@@ -35,66 +37,71 @@ verify_image()
 	fi
 }
 
-image=$(basename "$IMAGE_URL")
-ext="${image##*.}"
+image_filename="${IMAGE_URL##*/}"
+# image_ext="${image_filename##*.}"
 
-echo "create images from $image"
+echo "create images from $image_filename"
 
 # verify checksum
-if [ ! -e "$image" ]; then
+if [ ! -e "$image_filename" ]; then
 	echo "--> fetching $IMAGE_URL"
-	curl -LSs "$IMAGE_URL" > "$image"
-	! verify_image "$image" && exit 1
+	curl -LSs "$IMAGE_URL" > "$image_filename"
+	! verify_image "$image_filename" && exit 1
 else
 	echo 'file already downloaded.'
-	! verify_image "$image" && exit 1
+	! verify_image "$image_filename" && exit 1
 fi
 
-# derived template variables
-PRODUCT_NAME=${image%-disk1.vmdk}
-IMAGE_FILENAME="$image"
-IMAGE_SIZE=$(wc -c "$IMAGE_FILENAME" | awk {'print $1'})
-IMAGE_CAPACITY=$(qemu-img info "$IMAGE_FILENAME" | grep 'virtual size:' | tail -n1 | awk -F " " '{print $NF}')
-IMAGE_POPULATED_SIZE=0
-IMAGE_UUID=$(vboxmanage showhdinfo "$IMAGE_FILENAME" | grep UUID | head -n1 | cut -d ':' -f 2 | xargs)
+# mv the file to dest prefix (this can be improved)
+mv "$image_filename" "$FILENAME_PREFIX-disk1.vmdk" || true
 
-# copy from source template
-cp -v "$OVF_TEMPLATE" "$PRODUCT_NAME.ovf"
+# copy the ovf template
+cp -v "$OVF_TEMPLATE" "$FILENAME_PREFIX.ovf"
+
+# derived template variables
+PRODUCT_NAME="$FILENAME_PREFIX"
+IMAGE_FILENAME="$FILENAME_PREFIX-disk1.vmdk"
+IMAGE_SIZE=$(stat --printf="%s" "$FILENAME_PREFIX-disk1.vmdk")
+IMAGE_CAPACITY=$(qemu-img info "$FILENAME_PREFIX-disk1.vmdk" | grep 'virtual size:' | tail -n1 | awk -F " " '{print $NF}')
+IMAGE_UUID=$(vboxmanage showhdinfo "$FILENAME_PREFIX-disk1.vmdk" | grep UUID | head -n1 | cut -d ':' -f 2 | xargs)
+
+# derived template variables
+IMAGE_POPULATED_SIZE=0
 
 # render the template
-sed -i -e "s/\$IMAGE_FILENAME/$IMAGE_FILENAME/" "$PRODUCT_NAME.ovf"
-sed -i -e "s/\$IMAGE_SIZE/$IMAGE_SIZE/" "$PRODUCT_NAME.ovf"
-sed -i -e "s/\$IMAGE_CAPACITY/$IMAGE_CAPACITY/" "$PRODUCT_NAME.ovf"
-sed -i -e "s/\$IMAGE_POPULATED_SIZE/$IMAGE_POPULATED_SIZE/" "$PRODUCT_NAME.ovf"
-sed -i -e "s/\$IMAGE_UUID/$IMAGE_UUID/" "$PRODUCT_NAME.ovf"
-sed -i -e "s/\$PRODUCT_INFO/$PRODUCT_INFO/" "$PRODUCT_NAME.ovf"
-sed -i -e "s/\$PRODUCT_NAME/$PRODUCT_NAME/" "$PRODUCT_NAME.ovf"
-sed -i -e "s/\$PRODUCT_VERSION/$PRODUCT_VERSION/" "$PRODUCT_NAME.ovf"
-sed -i -e "s/\$PRODUCT_FULL_VERSION/$PRODUCT_FULL_VERSION/" "$PRODUCT_NAME.ovf"
-sed -i -e "s/\$VENDOR_NAME/$VENDOR_NAME/" "$PRODUCT_NAME.ovf"
-sed -i -e "s/\$OPERATING_SYSTEM_INFO/$OPERATING_SYSTEM_INFO/" "$PRODUCT_NAME.ovf"
-sed -i -e "s/\$OPERATING_SYSTEM_DESCRIPTION/$OPERATING_SYSTEM_DESCRIPTION/" "$PRODUCT_NAME.ovf"
-sed -i -e "s/\$OPERATING_SYSTEM_ID/$OPERATING_SYSTEM_ID/" "$PRODUCT_NAME.ovf"
-sed -i -e "s/\$OPERATING_SYSTEM_VERSION/$OPERATING_SYSTEM_VERSION/" "$PRODUCT_NAME.ovf"
-sed -i -e "s/\$OPERATING_SYSTEM_TYPE/$OPERATING_SYSTEM_TYPE/" "$PRODUCT_NAME.ovf"
+sed -i -e "s/\$IMAGE_FILENAME/$IMAGE_FILENAME/" "$FILENAME_PREFIX.ovf"
+sed -i -e "s/\$IMAGE_SIZE/$IMAGE_SIZE/" "$FILENAME_PREFIX.ovf"
+sed -i -e "s/\$IMAGE_CAPACITY/$IMAGE_CAPACITY/" "$FILENAME_PREFIX.ovf"
+sed -i -e "s/\$IMAGE_POPULATED_SIZE/$IMAGE_POPULATED_SIZE/" "$FILENAME_PREFIX.ovf"
+sed -i -e "s/\$IMAGE_UUID/$IMAGE_UUID/" "$FILENAME_PREFIX.ovf"
+sed -i -e "s/\$PRODUCT_INFO/$PRODUCT_INFO/" "$FILENAME_PREFIX.ovf"
+sed -i -e "s/\$PRODUCT_NAME/$PRODUCT_NAME/" "$FILENAME_PREFIX.ovf"
+sed -i -e "s/\$PRODUCT_VERSION/$PRODUCT_VERSION/" "$FILENAME_PREFIX.ovf"
+sed -i -e "s/\$PRODUCT_FULL_VERSION/$PRODUCT_FULL_VERSION/" "$FILENAME_PREFIX.ovf"
+sed -i -e "s/\$VENDOR_NAME/$VENDOR_NAME/" "$FILENAME_PREFIX.ovf"
+sed -i -e "s/\$OPERATING_SYSTEM_INFO/$OPERATING_SYSTEM_INFO/" "$FILENAME_PREFIX.ovf"
+sed -i -e "s%\$OPERATING_SYSTEM_DESCRIPTION%$OPERATING_SYSTEM_DESCRIPTION%" "$FILENAME_PREFIX.ovf"
+sed -i -e "s/\$OPERATING_SYSTEM_ID/$OPERATING_SYSTEM_ID/" "$FILENAME_PREFIX.ovf"
+sed -i -e "s/\$OPERATING_SYSTEM_VERSION/$OPERATING_SYSTEM_VERSION/" "$FILENAME_PREFIX.ovf"
+sed -i -e "s/\$OPERATING_SYSTEM_TYPE/$OPERATING_SYSTEM_TYPE/" "$FILENAME_PREFIX.ovf"
 
-echo "$PRODUCT_NAME.ovf contents:"
+echo "$FILENAME_PREFIX.ovf contents:"
 echo '--'
-cat "$PRODUCT_NAME.ovf"
+cat "$FILENAME_PREFIX.ovf"
 echo '--'
 
 # create mf
-cat <<EOF> "$PRODUCT_NAME.mf"
-SHA1($IMAGE_FILENAME)= $(shasum -a 1 $image | cut -d ' ' -f 1)
-SHA1($PRODUCT_NAME.ovf)= $(shasum -a 1 $PRODUCT_NAME.ovf | cut -d ' ' -f 1)
+cat <<EOF> "$FILENAME_PREFIX.mf"
+SHA1($FILENAME_PREFIX-disk1.vmdk)= $(sha1sum $FILENAME_PREFIX-disk1.vmdk | cut -d ' ' -f 1)
+SHA1($FILENAME_PREFIX.ovf)= $(sha1sum $FILENAME_PREFIX.ovf | cut -d ' ' -f 1)
 EOF
-echo "-- $PRODUCT_NAME.mf -- "
-cat "$PRODUCT_NAME.mf"
+echo "-- $FILENAME_PREFIX.mf -- "
+cat "$FILENAME_PREFIX.mf"
 echo '----'
 
 # create vmware ova
 echo 'Creating ova...'
-tar cvf "$PRODUCT_NAME.ova" "$PRODUCT_NAME.ovf"
-tar uvf "$PRODUCT_NAME.ova" "$PRODUCT_NAME.mf" "$image"
+tar cvf "$FILENAME_PREFIX.ova" "$FILENAME_PREFIX.ovf"
+tar uvf "$FILENAME_PREFIX.ova" "$FILENAME_PREFIX.mf" "$FILENAME_PREFIX-disk1.vmdk"
 
 echo 'Done.'
