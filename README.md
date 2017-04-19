@@ -72,6 +72,9 @@ See the [releases](https://github.com/flaccid/machine-image-tools/releases) page
 ## Upstream Resources
 
 - http://opennodecloud.com/howto/2013/12/25/howto-ON-ovf-reference.html
+- https://www.dmtf.org/sites/default/files/standards/documents/DSP0243_2.1.1.pdf
+- https://pubs.vmware.com/vsphere-60/index.jsp?topic=%2Fcom.vmware.wssdk.apiref.doc%2Fvim.vm.GuestOsDescriptor.GuestOsIdentifier.html
+- http://support.theenterprisecloud.com/kb/default.asp?SID=&Lang=1&id=1077
 - https://www.vmware.com/support/developer/ovf/ovf20/ovftool_201_userguide.pdf
 - http://wiki.qemu-project.org/Features/Qcow3
 - https://github.com/tcnksm/ghr/wiki/Integrate-ghr-with-CI-as-a-Service
