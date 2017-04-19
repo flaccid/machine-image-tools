@@ -34,7 +34,7 @@ For example, `debian-8.7.3-20170323-amd64.ova`
 
 Pull down the Ubuntu 16.04 VMDK, create an OVA and upload to vSphere:
 
-    $ . scripts/env/ubuntu-1604 && ./create_images_from_vmdk.sh xenial-server-cloudimg-amd64
+    $ . scripts/env/ubuntu-1604 && ./create_images_from_vmdk.sh
     $ ovftool --acceptAllEulas \
        -ds='NFS Datastore' \
        --net:'VM Network'='VM Network' \
@@ -44,7 +44,7 @@ Pull down the Ubuntu 16.04 VMDK, create an OVA and upload to vSphere:
        --diskMode=thin \
          ./xenial-server-cloudimg-amd64.ova vi://user@vcenter/datacenter1/host/cluster1
 
-Pull down a Debian qcow2 image, create an OVA:
+Debian qcow2 image, create an OVA:
 
     $ . scripts/env/debian-8 && scripts/create_images_from_qcow2.sh
 
@@ -56,7 +56,7 @@ Pull down a RancherOS qcow2 image, create an OVA:
 
     $ . scripts/env/rancheros && scripts/create_images_from_qcow2.sh
 
-CoreOS
+CoreOS:
     $ . scripts/env/coreos-stable && scripts/create_images_from_qcow2.sh
 
 ## Downloads
@@ -75,6 +75,7 @@ See the [releases](https://github.com/flaccid/machine-image-tools/releases) page
 - https://www.vmware.com/support/developer/ovf/ovf20/ovftool_201_userguide.pdf
 - http://wiki.qemu-project.org/Features/Qcow3
 - https://github.com/tcnksm/ghr/wiki/Integrate-ghr-with-CI-as-a-Service
+- https://help.github.com/articles/distributing-large-binaries/
 
 ### Respected Machine Image Homes
 
