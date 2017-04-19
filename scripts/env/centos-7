@@ -1,6 +1,6 @@
 # CentOS-7-x86_64-GenericCloud
-export IMAGE_URL=http://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud.qcow2
-export IMAGE_SHA256SUM=0cfd71bfbb4dba3097999dcbe1e611d6c3407f1b30936e9a6e437f320dfb7be9
+export IMAGE_URL=http://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud-1703.qcow2
+export IMAGE_SHA256SUM=588f897c32fd360a9c1837962bd5efc22332acfeef9b4c4fd398e93d9ab1599a
 export OVF_TEMPLATE=../templates/basic_template.ovf.xml
 export PRODUCT_INFO='A base CentOS 7 host.'
 export PRODUCT_VERSION='7'
