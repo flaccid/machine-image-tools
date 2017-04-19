@@ -27,5 +27,5 @@ deployment:
     # its probably just over or hitting the 2GB file size limit
     - rm -f dist/debian-*.img
     - rm -f dist/centos-*.img
-    - ghr -t "$GITHUB_TOKEN" -u "$CIRCLE_PROJECT_USERNAME" -r "$CIRCLE_PROJECT_REPONAME" -prerelease -delete "v0.0.$CIRCLE_BUILD_NUM" dist/:
+    - ghr -t "$GITHUB_TOKEN" -u "$CIRCLE_PROJECT_USERNAME" -r "$CIRCLE_PROJECT_REPONAME" -prerelease -delete "v0.0.$CIRCLE_BUILD_NUM" dist/
     timeout: 1200
