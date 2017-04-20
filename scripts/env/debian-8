@@ -10,7 +10,9 @@ export OPERATING_SYSTEM_INFO='Linux'
 export OPERATING_SYSTEM_DESCRIPTION='Debian GNU/Linux Guest Machine'
 export OPERATING_SYSTEM_ID=96
 export OPERATING_SYSTEM_VERSION=8.7.3
-export OPERATING_SYSTEM_TYPE='debian8_64Guest'
+# export OPERATING_SYSTEM_TYPE='debian8_64Guest'
+# use the debian 7 osType so that the image works on vSphere 5.5
+export OPERATING_SYSTEM_TYPE='debian7Guest'
 export OPERATING_SYSTEM_ARCH='amd64'
 
 export FILENAME_PREFIX="debian-$PRODUCT_FULL_VERSION-$(date +"%Y%m%d")-$OPERATING_SYSTEM_ARCH"
