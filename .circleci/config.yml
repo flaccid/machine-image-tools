@@ -4,11 +4,13 @@ jobs:
     docker:
       - image: debian:stretch-slim
     steps:
+      - run: apt-get -y update
+      - run: apt-get -y install coreutils qemu gawk sed curl wget make git ssh
       - run: echo 'deb http://download.virtualbox.org/virtualbox/debian stretch contrib' > /etc/apt/sources.list.d/virtualbox.list
       - run: wget https://www.virtualbox.org/download/oracle_vbox_2016.asc
       - run: apt-key add oracle_vbox_2016.asc
       - run: apt-get -y update
-      - run: apt-get -y install coreutils qemu gawk sed curl wget make git ssh virtualbox-6.0
+      - run: apt-get -y install virtualbox-6.0
       - checkout
       - run: make debian-stretch
       - run: make ubuntu-bionic
