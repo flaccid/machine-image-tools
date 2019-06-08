@@ -1,0 +1,16 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: alpine:latest
+    steps:
+      - checkout
+      - run: apk-add --no-cache --update coreutils qemu virtualbox gawk sed curl wget make
+      - run: make debian-stretch
+      - run: make ubuntu-bionic
+      - run: make centos
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build
