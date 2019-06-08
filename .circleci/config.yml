@@ -4,8 +4,8 @@ jobs:
     docker:
       - image: alpine:latest
     steps:
+      - run: apk-add --no-cache --update coreutils qemu virtualbox gawk sed curl wget make git ssh
       - checkout
-      - run: apk-add --no-cache --update coreutils qemu virtualbox gawk sed curl wget make
       - run: make debian-stretch
       - run: make ubuntu-bionic
       - run: make centos
