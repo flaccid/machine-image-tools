@@ -1,14 +1,14 @@
 dependencies:
   post:
     - sudo apt-get -y update
-    - sudo apt-get -y install coreutils qemu virtualbox gawk sed curl wget
+    - sudo apt-get -y install coreutils qemu virtualbox gawk sed curl wget make
     - cd /tmp && wget https://github.com/tcnksm/ghr/releases/download/v0.5.4/ghr_v0.5.4_linux_amd64.zip && unzip ghr_v0.5.4_linux_amd64.zip && sudo mv ./ghr /usr/local/bin/
 compile:
   override:
-    - cd dist && source ../scripts/env/debian-8 && ../scripts/create_images_from_qcow2.sh
-    - cd dist && source ../scripts/env/ubuntu-1604 && ../scripts/create_images_from_vmdk.sh:
+    - make debian-stretch
+    - make ubuntu-bionic:
         timeout: 1200
-    - cd dist && source ../scripts/env/centos-7 && ../scripts/create_images_from_qcow2.sh:
+    - make centos-7:
         timeout: 1200
     # - cd dist && source ../scripts/env/rancheros && ../scripts/create_images_from_qcow2.sh
     # - cd dist && source ../scripts/env/coreos-stable && ../scripts/create_images_from_qcow2.sh
