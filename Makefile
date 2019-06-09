@@ -41,6 +41,7 @@ todist:: ## moves all available created files to dist/
 publish:: ## publish the files in dist/ to github
 		@rm -f dist/debian-*.img
 		@rm -f dist/centos-*.img
+		@rm -f dist/rhel-*.img
 		@/usr/local/bin/ghr -t "$$GITHUB_TOKEN" -u "$$CIRCLE_PROJECT_USERNAME" -r "$$CIRCLE_PROJECT_REPONAME" -prerelease -delete "v0.0.$$CIRCLE_BUILD_NUM" dist/
 
 # a help target including self-documenting targets (see the awk statement)
