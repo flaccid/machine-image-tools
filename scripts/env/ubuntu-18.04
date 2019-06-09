@@ -1,18 +1,18 @@
-# xenial-server-cloudimg-amd64
+# bionic-server-cloudimg-amd64
 
 export IMAGE_URL=http://cloud-images.ubuntu.com/bionic/20190531/bionic-server-cloudimg-amd64.vmdk
 export IMAGE_SHA256SUM=4068fb1fd986d6823204740031f269426365fa9c3502d073d9f04aab488c6899
 #export OVF_TEMPLATE=templates/from-ubuntu-server-cloud-init.ovf.xml
 export OVF_TEMPLATE=./templates/basic_template.ovf.xml
 #export OVF_TEMPLATE=templates/cloud_init_customizations_template.ovf.xml
-export PRODUCT_INFO='A base Ubuntu 16.04 host.'
-export PRODUCT_VERSION='16.04'
-export PRODUCT_FULL_VERSION='16.04'
+export PRODUCT_INFO='A base Ubuntu 18.04 host.'
+export PRODUCT_VERSION='18.04'
+export PRODUCT_FULL_VERSION='18.04'
 export VENDOR_NAME='Ubuntu'
 export OPERATING_SYSTEM_INFO='Linux'
 export OPERATING_SYSTEM_DESCRIPTION='Ubuntu Linux Guest Machine'
 export OPERATING_SYSTEM_ID=94
-export OPERATING_SYSTEM_VERSION=16.04
+export OPERATING_SYSTEM_VERSION=18.04
 export OPERATING_SYSTEM_TYPE='ubuntu64Guest'
 export OPERATING_SYSTEM_ARCH='amd64'
 
