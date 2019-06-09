@@ -24,13 +24,13 @@ install-ghr:: ## installs ghr
 		@mv ./ghr /usr/local/bin/
 
 todist:: ## moves all available created files to dist/
-		mkdir -p dist
-		@mv ./*.qcow2 ./dist/
-		@mv ./*.vmdk ./dist/
-		@mv ./*.img ./dist/
-		@mv ./*.mf ./dist/
-		@mv ./*.ova ./dist/
-		@mv ./*.ovf ./dist/
+		@mkdir -p dist
+		@mv -v ./*.qcow2 ./dist/
+		@mv -v ./*.vmdk ./dist/
+		@mv -v ./*.img ./dist/
+		@mv -v ./*.mf ./dist/
+		@mv -v ./*.ova ./dist/
+		@mv -v ./*.ovf ./dist/
 
 ### temporary workaround removing .img files
 # for some reason with this file we see ghr return 422 Validation Failed [{Resource:ReleaseAsset Field:size Code:custom Message:size is not included in the list}]

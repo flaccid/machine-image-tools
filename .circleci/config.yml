@@ -24,7 +24,7 @@ jobs:
       - run: make centos
       - run: make todist
       - persist_to_workspace:
-          root: dist
+          root: ./dist
   publish:
     # publishes the artificats to github
     docker:
