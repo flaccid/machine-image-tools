@@ -1,4 +1,4 @@
-# CentOS-7-x86_64-GenericCloud
+# rhel-8.0-update-0-x86_64-kvm
 
 export IMAGE_URL=https://storage.googleapis.com/scg-machine-images/rhel-8.0-update-0-x86_64-kvm.qcow2
 export IMAGE_SHA256SUM=bb21783a9b1c7427019f87b39475105988d17a7cde9da582c370521678f8efb1
@@ -14,4 +14,4 @@ export OPERATING_SYSTEM_VERSION=7
 export OPERATING_SYSTEM_TYPE='rhel7_64Guest'
 export OPERATING_SYSTEM_ARCH='amd64'
 
-export FILENAME_PREFIX="centos-$PRODUCT_FULL_VERSION-$(date +"%Y%m%d")-$OPERATING_SYSTEM_ARCH"
+export FILENAME_PREFIX="rhel-$PRODUCT_FULL_VERSION-$(date +"%Y%m%d")-$OPERATING_SYSTEM_ARCH"
