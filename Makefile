@@ -26,7 +26,6 @@ install-ghr:: ## installs ghr
 todist:: ## moves all available created files to dist/
 		mkdir -p dist
 		@mv ./*.qcow2 ./dist/
-		@mv ./*.raw ./dist/
 		@mv ./*.vmdk ./dist/
 		@mv ./*.img ./dist/
 		@mv ./*.mf ./dist/
