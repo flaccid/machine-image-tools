@@ -23,7 +23,8 @@ install-ghr:: ## installs ghr
 		@unzip ghr_v0.5.4_linux_amd64.zip
 		@mv ./ghr /usr/local/bin/
 
-to-dist:: ## moves all available created files to dist/
+todist:: ## moves all available created files to dist/
+		mkdir -p dist
 		@mv ./*.qcow2 ./dist/
 		@mv ./*.raw ./dist/
 		@mv ./*.vmdk ./dist/
@@ -36,7 +37,6 @@ to-dist:: ## moves all available created files to dist/
 # for some reason with this file we see ghr return 422 Validation Failed [{Resource:ReleaseAsset Field:size Code:custom Message:size is not included in the list}]
 # its probably just over or hitting the 2GB file size limit
 publish:: ## publish the files in dist/ to github
-		@rm -f dist/.gitignore
 		@rm -f dist/debian-*.img
 		@rm -f dist/centos-*.img
 		@/usr/local/bin/ghr -t "$$GITHUB_TOKEN" -u "$$CIRCLE_PROJECT_USERNAME" -r "$$CIRCLE_PROJECT_REPONAME" -prerelease -delete "v0.0.$$CIRCLE_BUILD_NUM" dist/

@@ -16,6 +16,9 @@ jobs:
       - run: make debian-stretch
       - run: make ubuntu-bionic
       - run: make centos
+      - run: make todist
+      - store_artifacts:
+          path: dist
   publish:
     # publishes the artificats to github
     docker:
@@ -25,7 +28,6 @@ jobs:
       - run: apt-get -y install unzip wget git ssh gnupg2 make
       - checkout
       - run: make install-ghr
-      - run: make todist
       - run: make publish
 workflows:
   version: 2
