@@ -23,10 +23,10 @@ jobs:
       - run: make ubuntu-bionic
       - run: make centos
       - run: make todist
-      - store_artifacts:
-          path: dist
+      # - store_artifacts:
+      #     path: dist
       - persist_to_workspace:
-          root: /tmp/workspace
+          root: ./dist
           paths:
             - dist/*
   publish:
@@ -38,7 +38,7 @@ jobs:
       - run: apt-get -y install unzip wget git ssh gnupg2 make ca-certificates
       - checkout
       - attach_workspace:
-          at: /tmp/workspace
+          at: ./
       - run: make install-ghr
       - run:
           name: List dist folder
