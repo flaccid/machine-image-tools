@@ -5,13 +5,19 @@ jobs:
     docker:
       - image: debian:stretch-slim
     steps:
-      - run: apt-get -y update
-      - run: apt-get -y install coreutils qemu gawk sed curl wget make git ssh gnupg2
-      - run: echo 'deb http://download.virtualbox.org/virtualbox/debian stretch contrib' > /etc/apt/sources.list.d/virtualbox.list
-      - run: wget https://www.virtualbox.org/download/oracle_vbox_2016.asc -O /tmp/oracle_vbox_2016.asc
-      - run: apt-key add /tmp/oracle_vbox_2016.asc
-      - run: apt-get -y update
-      - run: apt-get -y install virtualbox-6.0
+      - run:
+          name: Install build dependencies
+          command: |
+            apt-get -y update
+            apt-get -y install coreutils qemu gawk sed curl wget make git ssh gnupg2
+      - run:
+          name: Install VirtualBox
+          command: |
+            echo 'deb http://download.virtualbox.org/virtualbox/debian stretch contrib' > /etc/apt/sources.list.d/virtualbox.list
+            wget https://www.virtualbox.org/download/oracle_vbox_2016.asc -O /tmp/oracle_vbox_2016.asc
+            apt-key add /tmp/oracle_vbox_2016.asc
+            apt-get -y update
+            apt-get -y install virtualbox-6.0
       - checkout
       - run: make debian-stretch
       - run: make ubuntu-bionic
@@ -24,10 +30,15 @@ jobs:
     docker:
       - image: debian:stretch-slim
     steps:
+      - attach_workspace:
+          at: dist
       - run: apt-get -y update
       - run: apt-get -y install unzip wget git ssh gnupg2 make
       - checkout
       - run: make install-ghr
+      - run:
+          name: List dist folder
+          command: ls -lahR ./dist/
       - run: make publish
 workflows:
   version: 2
