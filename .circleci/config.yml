@@ -19,9 +19,10 @@ jobs:
   publish:
     # publishes the artificats to github
     docker:
-      - image: alpine:latest
+      - image: debian:stretch-slim
     steps:
-      - run: apk add git openssh-client make
+      - run: apt-get -y update
+      - run: apt-get -y install unzip wget git ssh gnupg2
       - checkout
       - run: make install-ghr
       - run: make todist
