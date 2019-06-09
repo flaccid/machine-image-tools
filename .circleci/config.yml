@@ -23,12 +23,13 @@ jobs:
       - run: make ubuntu-bionic
       - run: make centos
       - run: make todist
+      # to save time, we only publish to github
       # - store_artifacts:
       #     path: dist
       - persist_to_workspace:
           root: .
           paths:
-              - .
+            - .
   publish:
     # publishes the artificats to github
     docker:
@@ -36,7 +37,6 @@ jobs:
     steps:
       - run: apt-get -y update
       - run: apt-get -y install unzip wget git ssh gnupg2 make ca-certificates
-      #- checkout
       - attach_workspace:
           at: .
       - run: make install-ghr
