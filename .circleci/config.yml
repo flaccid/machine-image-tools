@@ -28,7 +28,7 @@ jobs:
       - persist_to_workspace:
           root: ./dist
           paths:
-            - dist/*
+            - *
   publish:
     # publishes the artificats to github
     docker:
