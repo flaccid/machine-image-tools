@@ -20,7 +20,7 @@ jobs:
     docker:
       - image: alpine:latest
     steps:
-      - run: apk add git ssh
+      - run: apk add git ssh make
       - checkout
       - run: make install-ghr
       - run: make todist
