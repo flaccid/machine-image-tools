@@ -1,6 +1,7 @@
 version: 2
 jobs:
   build:
+    # the image factory
     docker:
       - image: debian:stretch-slim
     steps:
@@ -15,12 +16,12 @@ jobs:
       - run: make debian-stretch
       - run: make ubuntu-bionic
       - run: make centos
-  # publish assets to github
   publish:
+    # publishes the artificats to github
     docker:
       - image: alpine:latest
     steps:
-      - run: apk add git ssh make
+      - run: apk add git openssh-client make
       - checkout
       - run: make install-ghr
       - run: make todist
