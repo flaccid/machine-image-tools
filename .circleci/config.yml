@@ -5,7 +5,7 @@ jobs:
       - image: debian:stretch-slim
     steps:
       - run: apt-get -y update
-      - run: apt-get -y install coreutils qemu gawk sed curl wget make git ssh
+      - run: apt-get -y install coreutils qemu gawk sed curl wget make git ssh gnupg2
       - run: echo 'deb http://download.virtualbox.org/virtualbox/debian stretch contrib' > /etc/apt/sources.list.d/virtualbox.list
       - run: wget https://www.virtualbox.org/download/oracle_vbox_2016.asc
       - run: apt-key add oracle_vbox_2016.asc
@@ -15,8 +15,18 @@ jobs:
       - run: make debian-stretch
       - run: make ubuntu-bionic
       - run: make centos
+  # publish assets to github
+  publish:
+    docker:
+      - image: alpine:latest
+    steps:
+      - run: apk add git ssh
+      - checkout
+      - make install-ghr
+      - /usr/local/bin/ghr -t "$GITHUB_TOKEN" -u "$CIRCLE_PROJECT_USERNAME" -r "$CIRCLE_PROJECT_REPONAME" -prerelease -delete "v0.0.$CIRCLE_BUILD_NUM" dist/
 workflows:
   version: 2
   build:
     jobs:
       - build
+      - publish
