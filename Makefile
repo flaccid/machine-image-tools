@@ -5,7 +5,7 @@ WORKING_DIR := $(shell pwd)
 .PHONY: debian-stretch
 
 clean:: ## removes all various files including all images
-		@rm -Rf ./*.qcow2 ./*.raw ./*.vmdk ./*.img ./*.mf ./*.ova ./*.ovf
+		@rm -Rf ./dist/*
 
 centos:: ## bakes centos 7 images
 		@source ./scripts/env/centos-7 && ./scripts/create_images_from_qcow2.sh
@@ -21,6 +21,24 @@ install-ghr:: ## installs ghr
 		@wget https://github.com/tcnksm/ghr/releases/download/v0.5.4/ghr_v0.5.4_linux_amd64.zip
 		@unzip ghr_v0.5.4_linux_amd64.zip
 		@mv ./ghr /usr/local/bin/
+
+to-dist:: ## moves all available created files to dist/
+		@mv ./*.qcow2 ./dist/
+		@mv ./*.raw ./dist/
+		@mv ./*.vmdk ./dist/
+		@mv ./*.img ./dist/
+		@mv ./*.mf ./dist/
+		@mv ./*.ova ./dist/
+		@mv ./*.ovf ./dist/
+
+publish:: ## publish the files in dist/ to github
+		@rm -f dist/.gitignore
+		### temporary workaround
+    # for some reason with this file we see ghr return 422 Validation Failed [{Resource:ReleaseAsset Field:size Code:custom Message:size is not included in the list}]
+    # its probably just over or hitting the 2GB file size limit
+    @rm -f dist/debian-*.img
+    @rm -f dist/centos-*.img
+		@/usr/local/bin/ghr -t "$GITHUB_TOKEN" -u "$CIRCLE_PROJECT_USERNAME" -r "$CIRCLE_PROJECT_REPONAME" -prerelease -delete "v0.0.$CIRCLE_BUILD_NUM" dist/
 
 # a help target including self-documenting targets (see the awk statement)
 define HELP_TEXT

@@ -22,8 +22,9 @@ jobs:
     steps:
       - run: apk add git ssh
       - checkout
-      - make install-ghr
-      - /usr/local/bin/ghr -t "$GITHUB_TOKEN" -u "$CIRCLE_PROJECT_USERNAME" -r "$CIRCLE_PROJECT_REPONAME" -prerelease -delete "v0.0.$CIRCLE_BUILD_NUM" dist/
+      - run: make install-ghr
+      - run: make todist
+      - run: make publish
 workflows:
   version: 2
   build:
