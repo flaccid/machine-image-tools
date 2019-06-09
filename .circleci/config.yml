@@ -27,8 +27,6 @@ jobs:
       #     path: dist
       - persist_to_workspace:
           root: ./dist
-          paths:
-            - *
   publish:
     # publishes the artificats to github
     docker:
@@ -38,7 +36,7 @@ jobs:
       - run: apt-get -y install unzip wget git ssh gnupg2 make ca-certificates
       - checkout
       - attach_workspace:
-          at: ./
+          at: ./dist
       - run: make install-ghr
       - run:
           name: List dist folder
