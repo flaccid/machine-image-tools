@@ -26,7 +26,9 @@ jobs:
       # - store_artifacts:
       #     path: dist
       - persist_to_workspace:
-          root: ./dist
+          root: .
+          paths:
+              - .
   publish:
     # publishes the artificats to github
     docker:
@@ -34,13 +36,13 @@ jobs:
     steps:
       - run: apt-get -y update
       - run: apt-get -y install unzip wget git ssh gnupg2 make ca-certificates
-      - checkout
+      #- checkout
       - attach_workspace:
-          at: ./dist
+          at: .
       - run: make install-ghr
       - run:
           name: List dist folder
-          command: ls -lahR /tmp/workspace
+          command: ls -lahR ./dist
       - run: make publish
 workflows:
   version: 2
