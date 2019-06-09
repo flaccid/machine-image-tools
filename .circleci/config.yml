@@ -22,6 +22,7 @@ jobs:
       - run: make debian-stretch
       - run: make ubuntu-bionic
       - run: make centos
+      - run: make rhel
       - run: make todist
       # to save time, we only publish to github
       # - store_artifacts:

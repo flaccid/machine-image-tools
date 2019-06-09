@@ -14,6 +14,9 @@ centos:: ## bakes centos 7 images
 debian-stretch:: ## bakes debian 9 images
 		@. ./scripts/env/debian-9 && ./scripts/create_images_from_qcow2.sh
 
+rhel:: ## bakes rhel 8 images
+	@. ./scripts/env/rhel-8-updated && ./scripts/create_images_from_qcow2.sh
+
 ubuntu-bionic:: ## bakes ubuntu 18.04 LTS images
 		@. ./scripts/env/ubuntu-18.04 && ./scripts/create_images_from_vmdk.sh
 

@@ -1,0 +1,17 @@
+# CentOS-7-x86_64-GenericCloud
+
+export IMAGE_URL=https://storage.googleapis.com/scg-machine-images/rhel-8.0-update-0-x86_64-kvm.qcow2
+export IMAGE_SHA256SUM=bb21783a9b1c7427019f87b39475105988d17a7cde9da582c370521678f8efb1
+export OVF_TEMPLATE=./templates/basic_template.ovf.xml
+export PRODUCT_INFO='A base RHEL 8 host.'
+export PRODUCT_VERSION='8'
+export PRODUCT_FULL_VERSION='8'
+export VENDOR_NAME='Red Hat'
+export OPERATING_SYSTEM_INFO='Linux'
+export OPERATING_SYSTEM_DESCRIPTION='RHEL Guest Machine'
+export OPERATING_SYSTEM_ID=80
+export OPERATING_SYSTEM_VERSION=7
+export OPERATING_SYSTEM_TYPE='rhel7_64Guest'
+export OPERATING_SYSTEM_ARCH='amd64'
+
+export FILENAME_PREFIX="centos-$PRODUCT_FULL_VERSION-$(date +"%Y%m%d")-$OPERATING_SYSTEM_ARCH"
