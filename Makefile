@@ -31,14 +31,14 @@ to-dist:: ## moves all available created files to dist/
 		@mv ./*.ova ./dist/
 		@mv ./*.ovf ./dist/
 
+### temporary workaround removing .img files
+# for some reason with this file we see ghr return 422 Validation Failed [{Resource:ReleaseAsset Field:size Code:custom Message:size is not included in the list}]
+# its probably just over or hitting the 2GB file size limit
 publish:: ## publish the files in dist/ to github
 		@rm -f dist/.gitignore
-		### temporary workaround
-    # for some reason with this file we see ghr return 422 Validation Failed [{Resource:ReleaseAsset Field:size Code:custom Message:size is not included in the list}]
-    # its probably just over or hitting the 2GB file size limit
-    @rm -f dist/debian-*.img
-    @rm -f dist/centos-*.img
-		@/usr/local/bin/ghr -t "$GITHUB_TOKEN" -u "$CIRCLE_PROJECT_USERNAME" -r "$CIRCLE_PROJECT_REPONAME" -prerelease -delete "v0.0.$CIRCLE_BUILD_NUM" dist/
+		@rm -f dist/debian-*.img
+		@rm -f dist/centos-*.img
+		@/usr/local/bin/ghr -t "$$GITHUB_TOKEN" -u "$$CIRCLE_PROJECT_USERNAME" -r "$$CIRCLE_PROJECT_REPONAME" -prerelease -delete "v0.0.$$CIRCLE_BUILD_NUM" dist/
 
 # a help target including self-documenting targets (see the awk statement)
 define HELP_TEXT
