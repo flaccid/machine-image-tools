@@ -6,15 +6,16 @@ WORKING_DIR := $(shell pwd)
 
 clean:: ## removes all various files including all images
 		@rm -Rf ./dist/*
+		@rm -Rf ./*.qcow2 ./*.raw ./*.vmdk ./*.img ./*.mf ./*.ova ./*.ovf
 
 centos:: ## bakes centos 7 images
-		@source ./scripts/env/centos-7 && ./scripts/create_images_from_qcow2.sh
+		@. ./scripts/env/centos-7 && ./scripts/create_images_from_qcow2.sh
 
 debian-stretch:: ## bakes debian 9 images
-		@source ./scripts/env/debian-9 && ./scripts/create_images_from_qcow2.sh
+		@. ./scripts/env/debian-9 && ./scripts/create_images_from_qcow2.sh
 
 ubuntu-bionic:: ## bakes ubuntu 18.04 LTS images
-		@source ./scripts/env/ubuntu-18.04 && ./scripts/create_images_from_vmdk.sh
+		@. ./scripts/env/ubuntu-18.04 && ./scripts/create_images_from_vmdk.sh
 
 install-ghr:: ## installs ghr
 		@cd /tmp
