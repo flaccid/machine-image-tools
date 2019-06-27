@@ -1,7 +1,7 @@
 # debian-9.9.1-20190515-openstack
 
-export IMAGE_URL=https://cdimage.debian.org/cdimage/openstack/current/debian-9.9.1-20190515-openstack-amd64.qcow2
-export IMAGE_SHA256SUM=b19827e34feaddbbb3a2848a19fe1c48bc73fc884ba68bb25a8d3e08405e669d
+export IMAGE_URL=https://cdimage.debian.org/cdimage/openstack/current/debian-9.9.3-20190618-openstack-amd64.qcow2
+export IMAGE_SHA256SUM=4ccc4748b179245a95bbb5ffd414265aece5303611852788f13750912551c09d
 export OVF_TEMPLATE="./templates/basic_template.ovf.xml"
 export PRODUCT_INFO='A base Debian 9 host.'
 export PRODUCT_VERSION='8.9.1'
