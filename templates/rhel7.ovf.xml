@@ -25,8 +25,8 @@
       <System>
         <vssd:ElementName>Virtual Hardware Family</vssd:ElementName>
         <vssd:InstanceID>0</vssd:InstanceID>
-        <vssd:VirtualSystemIdentifier>$IMAGE_UUID</vssd:VirtualSystemIdentifier>
-        <vssd:VirtualSystemType>vmx-08</vssd:VirtualSystemType>
+        <vssd:VirtualSystemIdentifier>$FILENAME_PREFIX</vssd:VirtualSystemIdentifier>
+        <vssd:VirtualSystemType>vmx-10</vssd:VirtualSystemType>
       </System>
       <Item>
         <rasd:AllocationUnits>hertz * 10^6</rasd:AllocationUnits>
@@ -87,6 +87,7 @@
         <vmw:Config ovf:required="false" vmw:key="allowUnrestrictedCommunication" vmw:value="false" />
         <vmw:Config ovf:required="false" vmw:key="slotInfo.pciSlotNumber" vmw:value="32" />
       </Item>
+      <!--
       <Item ovf:required="false">
         <rasd:AddressOnParent>0</rasd:AddressOnParent>
         <rasd:AutomaticAllocation>false</rasd:AutomaticAllocation>
@@ -96,6 +97,7 @@
         <rasd:ResourceSubType>vmware.cdrom.remoteatapi</rasd:ResourceSubType>
         <rasd:ResourceType>15</rasd:ResourceType>
       </Item>
+      -->
       <Item>
         <rasd:AddressOnParent>0</rasd:AddressOnParent>
         <rasd:ElementName>Hard disk 1</rasd:ElementName>
