@@ -1,7 +1,7 @@
 # bionic-server-cloudimg-amd64
 
-export IMAGE_URL=http://cloud-images.ubuntu.com/bionic/20190531/bionic-server-cloudimg-amd64.vmdk
-export IMAGE_SHA256SUM=4068fb1fd986d6823204740031f269426365fa9c3502d073d9f04aab488c6899
+export IMAGE_URL=http://cloud-images.ubuntu.com/bionic/20190626/bionic-server-cloudimg-amd64.vmdk
+export IMAGE_SHA256SUM=05dd36f336fc3f37f590e5646209b27b289bcfa0cfdd972188f6ab9c768299af
 #export OVF_TEMPLATE=templates/from-ubuntu-server-cloud-init.ovf.xml
 export OVF_TEMPLATE=./templates/basic_template.ovf.xml
 #export OVF_TEMPLATE=templates/cloud_init_customizations_template.ovf.xml
