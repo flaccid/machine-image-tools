@@ -13,7 +13,7 @@
       <Description>The VM Network network</Description>
     </Network>
   </NetworkSection>
-  <VirtualSystem ovf:id="$IMAGE_UUID">
+  <VirtualSystem ovf:id="$FILENAME_PREFIX">
     <Info>A virtual machine</Info>
     <Name>$FILENAME_PREFIX</Name>
     <OperatingSystemSection ovf:id="$OPERATING_SYSTEM_ID" ovf:version="$OPERATING_SYSTEM_VERSION" vmw:osType="$OPERATING_SYSTEM_TYPE">
