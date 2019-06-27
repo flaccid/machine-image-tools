@@ -38,6 +38,7 @@ sed -i "s/\$PRODUCT_FULL_VERSION/$PRODUCT_FULL_VERSION/" "$image_base.ovf"
 sed -i "s/\$VENDOR_NAME/$VENDOR_NAME/" "$image_base.ovf"
 sed -i "s/\$OPERATING_SYSTEM_INFO/$OPERATING_SYSTEM_INFO/" "$image_base.ovf"
 sed -i "s/\$OPERATING_SYSTEM_DESCRIPTION/$OPERATING_SYSTEM_DESCRIPTION/" "$image_base.ovf"
+sed -i "s/\$FILENAME_PREFIX/$FILENAME_PREFIX/" "$image_base.ovf"
 
 echo "$image_base.ovf contents:"
 echo '--'
